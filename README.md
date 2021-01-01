@@ -1,4 +1,8 @@
-# PowerLogReader
+# Power Log Reader
+
+![Main Window](wiki/screenshots/Screenshot_MainWindow.png)
+
+![Settings Dialog](wiki/screenshots/Screenshot_SettingsDialog.png)
 
 * Read Windows EventLog and show power On/Off/Sleep/Wakeup record.
 * Show daily summary normalized by specified rule.
