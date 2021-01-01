@@ -1,10 +1,27 @@
 ﻿<Window x:Class="PowerLogReader.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="350" Width="525">
+        xmlns:core="clr-namespace:PowerLogReader.Core"
+        Title="{StaticResource AppTitle}" MinHeight="400" MinWidth="640" Height="400" Width="980">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding ClosingCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="370"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ContentControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" />
+        <ContentControl Grid.Row="1" Grid.Column="0" prism:RegionManager.RegionName="{x:Static core:RegionNames.CalendarRegion}" />
+        <ContentControl Grid.Row="1" Grid.Column="1" prism:RegionManager.RegionName="{x:Static core:RegionNames.PowerLogRegion}" />
     </Grid>
 </Window>

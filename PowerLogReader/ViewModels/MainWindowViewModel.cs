@@ -1,19 +1,19 @@
-﻿using Prism.Mvvm;
+﻿using PowerLogReader.Modules.Services;
+using Prism.Commands;
+using Prism.Mvvm;
+using System.Windows.Input;
 
 namespace PowerLogReader.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private string _title = "Prism Application";
-        public string Title
-        {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
-        }
+        public ICommand ClosingCommand { get; }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IPowerLogService powerLogService)
         {
-
+            ClosingCommand = new DelegateCommand(() => {
+                powerLogService.AbortScan();
+            });
         }
     }
 }

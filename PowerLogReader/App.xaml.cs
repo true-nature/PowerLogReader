@@ -1,4 +1,6 @@
-﻿using PowerLogReader.Views;
+﻿using PowerLogReader.Modules;
+using PowerLogReader.Modules.Services;
+using PowerLogReader.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using System.Windows;
@@ -17,7 +19,13 @@ namespace PowerLogReader
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<IPowerLogService, PowerLogReaderService>();
+            containerRegistry.RegisterSingleton<IPreferenceService, PreferenceService>();
+        }
 
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            moduleCatalog.AddModule<PowerLogModule>();
         }
     }
 }

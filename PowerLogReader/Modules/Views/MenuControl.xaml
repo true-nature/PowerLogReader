@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="PowerLogReader.Modules.Views.MenuControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Menu>
+        <MenuItem Header="File (_F)">
+            <MenuItem Header="Exit (_X)" Command="{Binding ExitCommand}"/>
+        </MenuItem>
+        <MenuItem Header="Option (_O)">
+            <MenuItem Header="Settings (_S)" Command="{Binding SettingsCommand}"/>
+        </MenuItem>
+        <MenuItem Header="Help (_H)">
+            <MenuItem Header="About (_A)" Command="{Binding AboutCommand}"/>
+        </MenuItem>
+    </Menu>
+</UserControl>

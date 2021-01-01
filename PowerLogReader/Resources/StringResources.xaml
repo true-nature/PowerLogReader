@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="AppTitle">Power Log Reader</sys:String>
+    <x:Array Type="sys:DayOfWeek" x:Key="DayOfWeeks">
+        <sys:DayOfWeek>Monday</sys:DayOfWeek>
+        <sys:DayOfWeek>Tuesday</sys:DayOfWeek>
+        <sys:DayOfWeek>Wednesday</sys:DayOfWeek>
+        <sys:DayOfWeek>Thursday</sys:DayOfWeek>
+        <sys:DayOfWeek>Friday</sys:DayOfWeek>
+        <sys:DayOfWeek>Saturday</sys:DayOfWeek>
+        <sys:DayOfWeek>Sunday</sys:DayOfWeek>
+    </x:Array>
+</ResourceDictionary>
