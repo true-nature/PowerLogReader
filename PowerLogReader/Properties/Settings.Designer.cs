@@ -25,7 +25,7 @@ namespace PowerLogReader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int RoundUnit {
             get {
                 return ((int)(this["RoundUnit"]));
@@ -37,13 +37,13 @@ namespace PowerLogReader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
-        public double OffsetHours {
+        [global::System.Configuration.DefaultSettingValueAttribute("180")]
+        public int OffsetMinutes {
             get {
-                return ((double)(this["OffsetHours"]));
+                return ((int)(this["OffsetMinutes"]));
             }
             set {
-                this["OffsetHours"] = value;
+                this["OffsetMinutes"] = value;
             }
         }
         
@@ -73,10 +73,10 @@ namespace PowerLogReader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("180")]
-        public long MaxDays {
+        [global::System.Configuration.DefaultSettingValueAttribute("365")]
+        public int MaxDays {
             get {
-                return ((long)(this["MaxDays"]));
+                return ((int)(this["MaxDays"]));
             }
             set {
                 this["MaxDays"] = value;

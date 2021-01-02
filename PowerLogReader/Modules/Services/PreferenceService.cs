@@ -36,7 +36,7 @@ namespace PowerLogReader.Modules.Services
             set
             {
                 SetProperty(ref dayOffset, value);
-                Properties.Settings.Default.OffsetHours = value.TotalHours;
+                Properties.Settings.Default.OffsetMinutes = (int)value.TotalMinutes;
                 Properties.Settings.Default.Save();
             }
         }
@@ -53,8 +53,8 @@ namespace PowerLogReader.Modules.Services
             }
         }
 
-        private long maxDays = 120;
-        public long MaxDays
+        private int maxDays = 120;
+        public int MaxDays
         {
             get => maxDays;
             set
@@ -95,7 +95,7 @@ namespace PowerLogReader.Modules.Services
             var settings = Properties.Settings.Default;
             rountUnit = settings.RoundUnit;
             Enum.TryParse<RoundingRule>(settings.RoundingRule, out rule);
-            dayOffset = TimeSpan.FromHours(settings.OffsetHours);
+            dayOffset = TimeSpan.FromMinutes(settings.OffsetMinutes);
             maxDays = settings.MaxDays;
             startMargin = settings.StartMargin;
             endMargin = settings.EndMargin;

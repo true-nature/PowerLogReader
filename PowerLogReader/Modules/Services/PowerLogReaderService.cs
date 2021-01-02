@@ -19,7 +19,7 @@ namespace PowerLogReader.Modules.Services
             AllPowerLogs.Clear();
             DateTime? lastDate = null;
 #pragma warning disable IDE0059 // 値の不必要な代入
-            long maxTimeDiff = Preference.MaxDays * 86400000;
+            long maxTimeDiff = Preference.MaxDays * 86400000L;
 #pragma warning restore IDE0059 // 値の不必要な代入
             var queryStr = "<QueryList><Query Id=\"0\" Path=\"System\">"
                 + "<Select Path =\"System\">"

@@ -12,6 +12,6 @@ namespace PowerLogReader.Modules.Services
         int StartMargin { get; set; }
         int EndMargin { get; set; }
         DayOfWeek FirstDayOfWeek { get; set; }
-        long MaxDays { get; set; }
+        int MaxDays { get; set; }
     }
 }

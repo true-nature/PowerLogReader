@@ -18,8 +18,8 @@ namespace PowerLogReader.Modules.ViewModels
         private IPowerLogService PowerLogService;
         public IPreferenceService Preference { get; }
 
-        public ReactivePropertySlim<DateTime> DisplayDate { get; } = new ReactivePropertySlim<DateTime>();
-        public ReactiveProperty<DateTime?> SelectedDate { get; } 
+        public ReactivePropertySlim<DateTime?> SelectedDate { get; } = new ReactivePropertySlim<DateTime?>(DateTime.Today, ReactivePropertyMode.DistinctUntilChanged);
+        public ReactiveProperty<DateTime?> DisplayDate { get; } 
 
         public CalendarControlViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IPowerLogService powerLog, IPreferenceService preference) :
             base(regionManager)
@@ -27,8 +27,9 @@ namespace PowerLogReader.Modules.ViewModels
             EventAggregator = eventAggregator;
             Preference = preference;
             PowerLogService = powerLog;
-            SelectedDate = powerLog.ScannedDate.ToReactiveProperty().AddTo(Disposable);
-            SelectedDate.Subscribe(OnDateChanged);
+            DisplayDate = powerLog.ScannedDate.ToReactiveProperty().AddTo(Disposable);
+            DisplayDate.Subscribe(OnDisplayDateChanged);
+            SelectedDate.Subscribe(OnSelectedDateChanged);
         }
 
         public void Dispose()
@@ -38,18 +39,24 @@ namespace PowerLogReader.Modules.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            DisplayDate.Value = DateTime.Today;
         }
 
-        private void OnDateChanged(DateTime? date)
+        private void OnSelectedDateChanged(DateTime? date)
+        {
+            if (date.HasValue)
+            {
+                PowerLogService.LastSelectedDate = date.Value;
+                EventAggregator.GetEvent<DateChangedEvent>().Publish(date);
+            }
+        }
+
+        private void OnDisplayDateChanged(DateTime? date)
         {
             if (date.HasValue)
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    DisplayDate.Value = date.Value;
-                    PowerLogService.LastSelectedDate = date.Value;
-                    EventAggregator.GetEvent<DateChangedEvent>().Publish(date);
+                    SelectedDate.Value = date.Value;
                 });
             }
         }

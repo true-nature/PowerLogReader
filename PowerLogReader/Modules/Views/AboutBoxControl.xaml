@@ -9,6 +9,7 @@
             <Setter Property="ResizeMode" Value="NoResize"/>
             <Setter Property="ShowInTaskbar" Value="False"/>
             <Setter Property="SizeToContent" Value="WidthAndHeight"/>
+            <Setter Property="WindowStyle" Value="ToolWindow"/>
         </Style>
     </prism:Dialog.WindowStyle>
     <Grid Margin="5">
@@ -33,7 +34,7 @@
         <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" FontSize="{StaticResource BasicFontSize}" VerticalAlignment="Top" Margin="5">
             Copyright &#x00a9; 2020 Hiruandon. All rights reserved.
         </TextBlock>
-        <Button Grid.Row="3" Grid.Column="2" Command="{Binding OkCommand}" Content="OK" Margin="3" FontSize="{StaticResource BasicFontSize}"/>
+        <Button Grid.Row="3" Grid.Column="2" Command="{Binding OkCommand}" IsCancel="True" Content="OK" Margin="3" FontSize="{StaticResource BasicFontSize}"/>
 
     </Grid>
 </UserControl>

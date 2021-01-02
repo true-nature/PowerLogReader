@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="RoundUnit" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
+      <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="OffsetHours" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">3</Value>
+    <Setting Name="OffsetMinutes" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">180</Value>
     </Setting>
     <Setting Name="StartMargin" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>
@@ -14,8 +14,8 @@
     <Setting Name="EndMargin" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">2</Value>
     </Setting>
-    <Setting Name="MaxDays" Type="System.Int64" Scope="User">
-      <Value Profile="(Default)">180</Value>
+    <Setting Name="MaxDays" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">365</Value>
     </Setting>
     <Setting Name="RoundingRule" Type="System.String" Scope="User">
       <Value Profile="(Default)">Off</Value>

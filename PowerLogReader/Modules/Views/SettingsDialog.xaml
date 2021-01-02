@@ -6,7 +6,7 @@
              xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="av"
-             Width="300" av:DesignHeight="310"
+             Width="300" av:DesignHeight="290"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
@@ -14,7 +14,7 @@
             <Setter Property="ResizeMode" Value="NoResize"/>
             <Setter Property="ShowInTaskbar" Value="False"/>
             <Setter Property="SizeToContent" Value="WidthAndHeight"/>
-            <Setter Property="WindowStyle" Value="None"/>
+            <Setter Property="WindowStyle" Value="ToolWindow"/>
         </Style>
     </prism:Dialog.WindowStyle>
     <UserControl.Resources>
@@ -29,11 +29,16 @@
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="FontSize" Value="{StaticResource BasicFontSize}"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
             <Setter Property="Margin" Value="3"/>
         </Style>
         <Style TargetType="{x:Type Slider}">
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="3"/>
+        </Style>
+        <Style TargetType="{x:Type RepeatButton}">
+            <Setter Property="Delay" Value="300"/>
+            <Setter Property="Interval" Value="30"/>
         </Style>
         <x:Array Type="ifs:RoundingRule" x:Key="RoundingRules">
             <ifs:RoundingRule>RoundingOff</ifs:RoundingRule>
@@ -46,67 +51,74 @@
             <GroupBox Header="Rounding">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2.5*"/>
                         <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="4*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Unit(min)"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Preference.RoundUnit, Mode=OneWay}" IsReadOnly="True"/>
-                    <Slider Grid.Row="0" Grid.Column="2" Minimum="1" Maximum="60" SmallChange="1" Value="{Binding Preference.RoundUnit, Mode=TwoWay}"/>
-
-                    <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="Rounding Rule"/>
-                    <ComboBox  Grid.Row="1" Grid.Column="2"  ItemsSource="{StaticResource RoundingRules}" SelectedItem="{Binding Preference.Rule,Mode=TwoWay}"/>
-                </Grid>
-            </GroupBox>
-            <GroupBox Header="Margin">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="5*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Start(min)"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Preference.StartMargin, Mode=OneWay}" IsReadOnly="True"/>
-                    <Slider Grid.Row="0" Grid.Column="2" Minimum="1" Maximum="20" SmallChange="1" Value="{Binding Preference.StartMargin, Mode=TwoWay}"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="End(min)"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Preference.EndMargin, Mode=OneWay}" IsReadOnly="True"/>
-                    <Slider Grid.Row="1" Grid.Column="2" Minimum="1" Maximum="20" SmallChange="1" Value="{Binding Preference.EndMargin, Mode=TwoWay}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Method"/>
+                    <ComboBox  Grid.Row="0" Grid.Column="1"  Grid.ColumnSpan="2" ItemsSource="{StaticResource RoundingRules}" SelectedItem="{Binding Preference.Rule,Mode=TwoWay}"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Unit[min]"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Preference.RoundUnit, Mode=OneWay}" ToolTip="[minutes]" IsReadOnly="True"/>
+                    <Slider Grid.Row="1" Grid.Column="2" Minimum="1" Maximum="60" SmallChange="1" Value="{Binding Preference.RoundUnit, Mode=TwoWay}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Start Margin"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Preference.StartMargin, Mode=OneWay}" ToolTip="[minutes]" IsReadOnly="True"/>
+                    <Slider Grid.Row="2" Grid.Column="2" Minimum="1" Maximum="20" SmallChange="1" Value="{Binding Preference.StartMargin, Mode=TwoWay}"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="End Margin"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Preference.EndMargin, Mode=OneWay}" ToolTip="[minutes]" IsReadOnly="True"/>
+                    <Slider Grid.Row="3" Grid.Column="2" Minimum="1" Maximum="20" SmallChange="1" Value="{Binding Preference.EndMargin, Mode=TwoWay}"/>
                 </Grid>
             </GroupBox>
             <GroupBox Header="Calendar">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="1.5*"/>
-                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Border Offset(hour)"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Preference.DayOffset.TotalHours, Mode=OneWay}" IsReadOnly="True"/>
-                    <Slider Grid.Row="0" Grid.Column="2" Minimum="0" TickPlacement="TopLeft" Maximum="6" Value="{Binding DayOffset.Value, Mode=TwoWay}"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="First Day of Week"/>
-                    <ComboBox  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" ItemsSource="{StaticResource DayOfWeeks}" SelectedItem="{Binding Preference.FirstDayOfWeek,Mode=TwoWay}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="First Day of Week"/>
+                    <ComboBox  Grid.Row="0" Grid.Column="1" ItemsSource="{StaticResource DayOfWeeks}" SelectedItem="{Binding Preference.FirstDayOfWeek,Mode=TwoWay}"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Border Offset[min]"/>
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <RepeatButton Grid.Column="0" Content="&#x2bc5;" Command="{Binding DayOffsetUpCommand}" Margin="3"/>
+                        <TextBox Grid.Column="1" Text="{Binding DayOffset.Value,Mode=OneWay}" IsReadOnly="True" ToolTip="[minutes]"/>
+                        <RepeatButton Grid.Column="2" Content="&#x2bc6;" Command="{Binding DayOffsetDownCommand}" Margin="3"/>
+                    </Grid>
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Max Days"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding MaxDays.Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    <Grid Grid.Row="2" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <RepeatButton  Grid.Column="0" Content="&#x2bc5;" Command="{Binding MaxDaysUpCommand}" Margin="3"/>
+                        <TextBox Grid.Column="1" Text="{Binding MaxDays.Value,Mode=OneWay}" IsReadOnly="True" ToolTip="[days]"/>
+                        <RepeatButton  Grid.Column="2" Content="&#x2bc6;" Command="{Binding MaxDaysDownCommand}" Margin="3"/>
+                    </Grid>
                 </Grid>
             </GroupBox>
-            <Button Content="OK" Command="{Binding OkCommand}" FontSize="{StaticResource BasicFontSize}" Width="100" Margin="5"/>
+            <Button Content="OK" Command="{Binding OkCommand}" IsCancel="true" FontSize="{StaticResource BasicFontSize}" Width="100" Margin="5"/>
         </StackPanel>
     </Border>
 </UserControl>
