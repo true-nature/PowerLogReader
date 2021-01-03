@@ -103,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -115,6 +119,7 @@
     <Compile Include="Core\RegionNames.cs" />
     <Compile Include="Core\RoundingRule.cs" />
     <Compile Include="Events\DateChangedEvent.cs" />
+    <Compile Include="Controls\IntegerUpDown.cs" />
     <Compile Include="Modules\Services\PreferenceService.cs" />
     <Compile Include="Modules\ViewModels\AboutBoxControlViewModel.cs" />
     <Compile Include="Modules\ViewModels\CalendarControlViewModel.cs" />

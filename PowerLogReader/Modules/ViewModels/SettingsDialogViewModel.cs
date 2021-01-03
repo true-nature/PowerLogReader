@@ -16,25 +16,17 @@ namespace PowerLogReader.Modules.ViewModels
         public IPreferenceService Preference { get; }
 
         public ReactiveProperty<int> DayOffset { get; } = new ReactiveProperty<int>(mode:ReactivePropertyMode.DistinctUntilChanged);
-        public ICommand DayOffsetUpCommand { get; }
-        public ICommand DayOffsetDownCommand { get; }
 
         public ReactiveProperty<int> MaxDays { get; } = new ReactiveProperty<int>();
-        public ICommand MaxDaysUpCommand { get; }
-        public ICommand MaxDaysDownCommand { get; }
 
         public SettingsDialogViewModel(IPreferenceService preference)
         {
             Preference = preference;
             DayOffset.Value = (int)Preference.DayOffset.TotalMinutes;
             DayOffset.Subscribe(OnDayOffsetChanged);
-            DayOffsetUpCommand = new DelegateCommand(OnDayOffsetUp);
-            DayOffsetDownCommand = new DelegateCommand(OnDayOffsetDown);
 
             MaxDays.Value = Preference.MaxDays;
             MaxDays.Subscribe(OnMaxDaysChanged);
-            MaxDaysUpCommand = new DelegateCommand(OnMaxDaysUp);
-            MaxDaysDownCommand = new DelegateCommand(OnMaxDaysDown);
 
             OkCommand = new DelegateCommand(OnOkCommand);
         }
@@ -47,7 +39,6 @@ namespace PowerLogReader.Modules.ViewModels
 
         public void OnDialogClosed()
         {
-            
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
@@ -67,42 +58,10 @@ namespace PowerLogReader.Modules.ViewModels
             RescanRequired = true;
         }
 
-        private void OnDayOffsetUp()
-        {
-            if (DayOffset.Value < 720)
-            {
-                DayOffset.Value++;
-            }
-        }
-
-        private void OnDayOffsetDown()
-        {
-            if (DayOffset.Value > -720)
-            {
-                DayOffset.Value--;
-            }
-        }
-
         private void OnMaxDaysChanged(int value)
         {
             Preference.MaxDays = value;
             RescanRequired = true;
-        }
-
-        private void OnMaxDaysUp()
-        {
-            if (MaxDays.Value < 366)
-            {
-                MaxDays.Value++;
-            }
-        }
-
-        private void OnMaxDaysDown()
-        {
-            if (MaxDays.Value > 2)
-            {
-                MaxDays.Value--;
-            }
         }
     }
 }
