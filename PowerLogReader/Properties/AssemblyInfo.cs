@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("Power Log Reader")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Hiruandon")]
+[assembly: AssemblyCompany("true-nature")]
 [assembly: AssemblyProduct("Power Log Reader")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright ©  2020, 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
