@@ -82,7 +82,7 @@ namespace PowerLogReader.Controls
             set => SetValue(DelayProperty, value);
         }
 
-        public static readonly DependencyProperty IntervalProperty = DependencyProperty.Register(nameof(Interval), typeof(int), typeof(IntegerUpDown), new PropertyMetadata(100));
+        public static readonly DependencyProperty IntervalProperty = DependencyProperty.Register(nameof(Interval), typeof(int), typeof(IntegerUpDown), new PropertyMetadata(33));
 
         public int Interval
         {
@@ -121,8 +121,8 @@ namespace PowerLogReader.Controls
             {
                 this.DownButton.Click -= OnDownClicked;
             }
-            this.UpButton = this.GetTemplateChild("UpBtn") as RepeatButton;
-            this.DownButton = this.GetTemplateChild("DnBtn") as RepeatButton;
+            this.UpButton = this.GetTemplateChild("PART_UpButton") as RepeatButton;
+            this.DownButton = this.GetTemplateChild("PART_DownButton") as RepeatButton;
             if (this.UpButton != null)
             {
                 this.UpButton.Click += OnUpClicked;

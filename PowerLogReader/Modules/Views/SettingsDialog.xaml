@@ -37,9 +37,9 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="3"/>
         </Style>
-        <Style TargetType="{x:Type RepeatButton}">
-            <Setter Property="Delay" Value="300"/>
-            <Setter Property="Interval" Value="30"/>
+        <Style TargetType="{x:Type ctrl:IntegerUpDown}">
+            <Setter Property="Delay" Value="400"/>
+            <Setter Property="Interval" Value="50"/>
         </Style>
         <x:Array Type="ifs:RoundingRule" x:Key="RoundingRules">
             <ifs:RoundingRule>RoundingOff</ifs:RoundingRule>
