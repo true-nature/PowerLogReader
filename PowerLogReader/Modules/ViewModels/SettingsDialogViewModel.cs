@@ -15,7 +15,7 @@ namespace PowerLogReader.Modules.ViewModels
         public ICommand OkCommand { get; }
         public IPreferenceService Preference { get; }
 
-        public ReactiveProperty<int> DayOffset { get; } = new ReactiveProperty<int>(mode:ReactivePropertyMode.DistinctUntilChanged);
+        public ReactiveProperty<int> DayOffset { get; } = new ReactiveProperty<int>(mode: ReactivePropertyMode.DistinctUntilChanged);
 
         public ReactiveProperty<int> MaxDays { get; } = new ReactiveProperty<int>();
 

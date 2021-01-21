@@ -28,7 +28,8 @@ namespace PowerLogReader.Modules.ViewModels
             });
             SettingsCommand = new DelegateCommand(() =>
             {
-                dialogService.ShowDialog(nameof(SettingsDialog), (x) => {
+                dialogService.ShowDialog(nameof(SettingsDialog), (x) =>
+                {
                     if (x.Result == ButtonResult.Retry)
                     {
                         Task.Run(() => PowerLogService.ScanEventLogsAsync());
@@ -41,7 +42,7 @@ namespace PowerLogReader.Modules.ViewModels
             });
             AboutCommand = new DelegateCommand(() =>
             {
-                dialogService.ShowDialog(nameof(AboutBoxControl), (x) => {});
+                dialogService.ShowDialog(nameof(AboutBoxControl), (x) => { });
             });
         }
     }

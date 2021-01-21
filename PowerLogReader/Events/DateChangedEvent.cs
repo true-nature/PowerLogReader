@@ -3,7 +3,7 @@ using System;
 
 namespace PowerLogReader.Events
 {
-    public class DateChangedEvent: PubSubEvent<DateTime?>
+    public class DateChangedEvent : PubSubEvent<DateTime?>
     {
     }
 }

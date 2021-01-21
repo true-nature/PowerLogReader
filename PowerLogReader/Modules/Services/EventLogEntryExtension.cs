@@ -8,8 +8,8 @@ namespace PowerLogReader.Modules.Services
     static class EventLogEntryExtension
     {
         private const string SourceKernelPower = "Microsoft-Windows-Kernel-Power";
-        private static readonly long[] KernelPowerOnInstances = { 131, 507};
-        private static readonly long[] KernelPowerOffInstances = { 41, 42, 109, 506};
+        private static readonly long[] KernelPowerOnInstances = { 131, 507 };
+        private static readonly long[] KernelPowerOffInstances = { 41, 42, 109, 506 };
         private const string SourceKernelBoot = "Microsoft-Windows-Kernel-Boot";
         private static readonly long[] KernelBootOnInstances = { 30 };
         private const string SourceKernelGeneral = "Microsoft-Windows-Kernel-General";
@@ -31,7 +31,8 @@ namespace PowerLogReader.Modules.Services
             if (SourceDic.ContainsKey(src))
             {
                 return SourceDic[src];
-            } else
+            }
+            else
             {
                 return src;
             }

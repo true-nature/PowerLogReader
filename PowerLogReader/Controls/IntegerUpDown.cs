@@ -38,7 +38,7 @@ namespace PowerLogReader.Controls
     {
         static IntegerUpDown()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(IntegerUpDown), 
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(IntegerUpDown),
                 new FrameworkPropertyMetadata(typeof(IntegerUpDown)));
         }
 

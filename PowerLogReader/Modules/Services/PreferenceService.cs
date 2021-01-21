@@ -10,8 +10,9 @@ namespace PowerLogReader.Modules.Services
         public int RoundUnit
         {
             get => rountUnit > 0 ? rountUnit : 1;
-            set { 
-                SetProperty(ref rountUnit , value);
+            set
+            {
+                SetProperty(ref rountUnit, value);
                 Properties.Settings.Default.RoundUnit = value;
                 Properties.Settings.Default.Save();
             }

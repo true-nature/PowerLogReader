@@ -11,7 +11,8 @@ namespace PowerLogReader.ViewModels
 
         public MainWindowViewModel(IPowerLogService powerLogService)
         {
-            ClosingCommand = new DelegateCommand(() => {
+            ClosingCommand = new DelegateCommand(() =>
+            {
                 powerLogService.AbortScan();
             });
         }

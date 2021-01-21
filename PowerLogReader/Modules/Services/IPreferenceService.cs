@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace PowerLogReader.Modules.Services
 {
-    public interface IPreferenceService: INotifyPropertyChanged
+    public interface IPreferenceService : INotifyPropertyChanged
     {
         int RoundUnit { get; set; }
         RoundingRule Rule { get; set; }

@@ -15,7 +15,8 @@ namespace PowerLogReader.Modules.ViewModels
         public AboutBoxControlViewModel()
         {
             Version = Assembly.GetExecutingAssembly().GetName().Version;
-            OkCommand = new DelegateCommand(() => {
+            OkCommand = new DelegateCommand(() =>
+            {
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
             });
         }
@@ -28,12 +29,12 @@ namespace PowerLogReader.Modules.ViewModels
 
         public void OnDialogClosed()
         {
-           
+
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-           
+
         }
     }
 }

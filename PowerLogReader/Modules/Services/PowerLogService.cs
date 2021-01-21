@@ -53,8 +53,8 @@ namespace PowerLogReader.Modules.Services
             var queryStr = $"<QueryList><Query Id='0' Path='System'>"
                 + "<Select Path ='System'>"
                 + "*[System[Provider[@Name = 'Microsoft-Windows-Kernel-Boot'"
-                +" or @Name = 'Microsoft-Windows-Kernel-General'"
-                +" or @Name = 'Microsoft-Windows-Kernel-Power']]] "
+                + " or @Name = 'Microsoft-Windows-Kernel-General'"
+                + " or @Name = 'Microsoft-Windows-Kernel-Power']]] "
                 + " and TimeCreated[timediff(@SystemTime) &lt;= {oldest}]]]"
                 + " </Select></ Query></QueryList>";
             var query = new EventLogQuery("System", PathType.LogName, queryStr);

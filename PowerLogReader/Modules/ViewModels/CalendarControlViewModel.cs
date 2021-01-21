@@ -19,7 +19,7 @@ namespace PowerLogReader.Modules.ViewModels
         public IPreferenceService Preference { get; }
 
         public ReactivePropertySlim<DateTime?> SelectedDate { get; } = new ReactivePropertySlim<DateTime?>(DateTime.Today, ReactivePropertyMode.DistinctUntilChanged);
-        public ReactiveProperty<DateTime?> DisplayDate { get; } 
+        public ReactiveProperty<DateTime?> DisplayDate { get; }
 
         public CalendarControlViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IPowerLogService powerLog, IPreferenceService preference) :
             base(regionManager)
