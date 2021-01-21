@@ -28,6 +28,11 @@ namespace PowerLogReader.Modules.Services
 
         public static string GetSourceName(this PowerLogServiceBase pls, string src)
         {
+            if (pls is null)
+            {
+                throw new System.ArgumentNullException(nameof(pls));
+            }
+
             if (SourceDic.ContainsKey(src))
             {
                 return SourceDic[src];

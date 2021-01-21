@@ -40,7 +40,7 @@ namespace PowerLogReader
 
         private void CreateLock()
         {
-            var created = false;
+            bool created;
             try
             {
                 var name = Assembly.GetEntryAssembly().GetName().Name;

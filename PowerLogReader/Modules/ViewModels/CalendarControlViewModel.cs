@@ -13,9 +13,9 @@ namespace PowerLogReader.Modules.ViewModels
 {
     public class CalendarControlViewModel : RegionViewModelBase, IDisposable
     {
-        private CompositeDisposable Disposable = new CompositeDisposable();
+        private readonly CompositeDisposable Disposable = new CompositeDisposable();
         private IEventAggregator EventAggregator { get; }
-        private IPowerLogService PowerLogService;
+        private readonly IPowerLogService PowerLogService;
         public IPreferenceService Preference { get; }
 
         public ReactivePropertySlim<DateTime?> SelectedDate { get; } = new ReactivePropertySlim<DateTime?>(DateTime.Today, ReactivePropertyMode.DistinctUntilChanged);

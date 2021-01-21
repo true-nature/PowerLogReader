@@ -18,9 +18,7 @@ namespace PowerLogReader.Modules.Services
             ScannedDate.Value = oldest;
             AllPowerLogs.Clear();
             DateTime? lastDate = null;
-#pragma warning disable IDE0059 // 値の不必要な代入
             long maxTimeDiff = Preference.MaxDays * 86400000L;
-#pragma warning restore IDE0059 // 値の不必要な代入
             var queryStr = "<QueryList><Query Id=\"0\" Path=\"System\">"
                 + "<Select Path =\"System\">"
                 + "*[System[Provider[@Name = 'Microsoft-Windows-Kernel-Boot'"
@@ -31,11 +29,10 @@ namespace PowerLogReader.Modules.Services
                 + "]]] </Select></Query></QueryList>";
             var query = new EventLogQuery("System", PathType.LogName, queryStr);
             EventLogReader reader = new EventLogReader(query);
-            PowerLogEntry pwle = null;
             EventRecord record = reader.ReadEvent();
             while (record != null && !ScanCompleted)
             {
-                pwle = ToPowerLogEntry(record);
+                PowerLogEntry pwle = ToPowerLogEntry(record);
                 if (pwle != null)
                 {
                     AllPowerLogs.Add(pwle);

@@ -16,7 +16,7 @@ namespace PowerLogReader.Modules.ViewModels
 {
     public class PowerLogControlViewModel : RegionViewModelBase, IDisposable
     {
-        private CompositeDisposable Disposable = new CompositeDisposable();
+        private readonly CompositeDisposable Disposable = new CompositeDisposable();
         private IEventAggregator EventAggregator { get; set; }
         private IPowerLogService PowerLogService { get; set; }
 

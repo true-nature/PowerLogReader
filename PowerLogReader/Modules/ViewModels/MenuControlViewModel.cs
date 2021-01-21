@@ -17,7 +17,7 @@ namespace PowerLogReader.Modules.ViewModels
         public ICommand SettingsCommand { get; }
         public ICommand AboutCommand { get; }
 
-        private IPowerLogService PowerLogService;
+        private readonly IPowerLogService PowerLogService;
 
         public MenuControlViewModel(IDialogService dialogService, IEventAggregator eventAggregator, IPowerLogService powerLogService)
         {
