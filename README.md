@@ -6,6 +6,10 @@
 
 ![Settings Dialog](../../wiki/screenshots/Screenshot_SettingsDialog.png)
 
+![Main Window(ja)](../../wiki/screenshots/Screenshot_MainWindow.ja.png)
+
+![Settings Dialog(ja)](../../wiki/screenshots/Screenshot_SettingsDialog.ja.png)
+
 * Read Windows EventLog and show power On/Off/Sleep/Wakeup record.
 * Show daily summary normalized by specified rule.
 * Requirement: .NET Framework 4.8
