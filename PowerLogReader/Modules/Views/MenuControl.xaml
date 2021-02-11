@@ -4,14 +4,14 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Menu>
-        <MenuItem Header="File (_F)">
-            <MenuItem Header="Exit (_X)" Command="{Binding ExitCommand}"/>
+        <MenuItem Header="{DynamicResource FileMenuitem}">
+            <MenuItem Header="{DynamicResource ExitMenuitem}" Command="{Binding ExitCommand}"/>
         </MenuItem>
-        <MenuItem Header="Option (_O)">
-            <MenuItem Header="Settings (_S)" Command="{Binding SettingsCommand}"/>
+        <MenuItem Header="{DynamicResource OptionMenuitem}">
+            <MenuItem Header="{DynamicResource SettingsMenuitem}" Command="{Binding SettingsCommand}"/>
         </MenuItem>
-        <MenuItem Header="Help (_H)">
-            <MenuItem Header="About (_A)" Command="{Binding AboutCommand}"/>
+        <MenuItem Header="{DynamicResource HelpMenuitem}">
+            <MenuItem Header="{DynamicResource AboutMenuitem}" Command="{Binding AboutCommand}"/>
         </MenuItem>
     </Menu>
 </UserControl>

@@ -22,6 +22,15 @@ namespace PowerLogReader
             {
                 return null;
             }
+            var uiCulture = Thread.CurrentThread.CurrentUICulture;
+            if (uiCulture.Name.StartsWith("ja"))
+            {
+                var rd = new ResourceDictionary
+                {
+                    Source = new Uri("Resources/StringResources.ja.xaml", UriKind.Relative)
+                };
+                Resources.MergedDictionaries.Add(rd);
+            }
             return Container.Resolve<MainWindow>();
         }
 

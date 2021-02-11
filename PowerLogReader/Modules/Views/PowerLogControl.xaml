@@ -11,6 +11,10 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="{StaticResource BasicFontSize}"/>
         </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="{StaticResource BasicFontSize}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -25,10 +29,16 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="SUMMARY" HorizontalAlignment="Center" Margin="20,0"/>
-            <TextBox Grid.Column="1" Text="Start:" HorizontalAlignment="Right" Margin="5,0"/>
+            <TextBlock Grid.Column="0" Text="{DynamicResource SummaryLabel}" HorizontalAlignment="Center" Margin="20,0"/>
+            <TextBlock Grid.Column="1"  HorizontalAlignment="Right" Margin="5,0">
+                <Run Text="{DynamicResource StartLabel}"/>
+                <Run Text=":"/>
+            </TextBlock>
             <TextBox Grid.Column="2" Text="{Binding Summary.Value.StartTime, StringFormat='yyyy/MM/dd HH:mm'}" Width="{StaticResource DateTimeWidth}" HorizontalContentAlignment="Left" Margin="0,0,10,0"/>
-            <TextBox Grid.Column="3" Text="End:" HorizontalAlignment="Right" Margin="5,0"/>
+            <TextBlock Grid.Column="3" HorizontalAlignment="Right" Margin="5,0">
+                <Run Text="{DynamicResource EndLabel}"/>
+                <Run Text=":"/>
+            </TextBlock>
             <TextBox Grid.Column="4" Text="{Binding Summary.Value.EndTime, StringFormat='yyyy/MM/dd HH:mm'}" Width="{StaticResource DateTimeWidth}" HorizontalContentAlignment="Left" Margin="0,0,10,0"/>
         </Grid>
         <ListView Grid.Row="1" Margin="5" ItemsSource="{Binding PowerLogs,Mode=OneWay}" HorizontalAlignment="Stretch">
@@ -39,14 +49,14 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Provider" Width="{StaticResource DateTimeWidth}">
+                    <GridViewColumn Header="{DynamicResource ProviderLabel}" Width="{StaticResource DateTimeWidth}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate DataType="{x:Type ifs:PowerLogEntry}">
                                 <TextBox Text="{Binding Provider,Mode=OneWay}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Id" Width="60">
+                    <GridViewColumn Header="{DynamicResource IdLabel}" Width="60">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ContentControl Content="{Binding}">
@@ -59,7 +69,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Start" Width="{StaticResource DateTimeWidth}">
+                    <GridViewColumn Header="{DynamicResource StartLabel}" Width="{StaticResource DateTimeWidth}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ContentControl Content="{Binding}">
@@ -72,7 +82,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="End" Width="{StaticResource DateTimeWidth}">
+                    <GridViewColumn Header="{DynamicResource StopLabel}" Width="{StaticResource DateTimeWidth}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <ContentControl Content="{Binding}">

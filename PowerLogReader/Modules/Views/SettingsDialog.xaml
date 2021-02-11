@@ -41,15 +41,13 @@
             <Setter Property="Delay" Value="400"/>
             <Setter Property="Interval" Value="50"/>
         </Style>
-        <x:Array Type="ifs:RoundingRule" x:Key="RoundingRules">
-            <ifs:RoundingRule>RoundingOff</ifs:RoundingRule>
-            <ifs:RoundingRule>Truncate</ifs:RoundingRule>
-            <ifs:RoundingRule>RoundingUp</ifs:RoundingRule>
-        </x:Array>
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
     </UserControl.Resources>
     <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="5">
         <StackPanel Orientation="Vertical" Margin="5">
-            <GroupBox Header="Rounding">
+            <GroupBox Header="{DynamicResource RoundingLabel}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4*"/>
@@ -62,20 +60,20 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Method"/>
-                    <ComboBox  Grid.Row="0" Grid.Column="1"  Grid.ColumnSpan="2" ItemsSource="{StaticResource RoundingRules}" SelectedItem="{Binding Preference.Rule,Mode=TwoWay}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource MethodLabel}"/>
+                    <ComboBox  Grid.Row="0" Grid.Column="1"  Grid.ColumnSpan="2" ItemsSource="{StaticResource RoundingRules}" SelectedIndex="{Binding RoundingRuleIndex.Value,Mode=TwoWay}"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Unit [min]"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource UnitLabel}"/>
                     <ctrl:IntegerUpDown Grid.Row="1" Grid.Column="1" MinValue="1" MaxValue="60" Value="{Binding Preference.RoundUnit,Mode=TwoWay}" Margin="3"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Boot Margin [min]"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource BootMarginLabel}"/>
                     <ctrl:IntegerUpDown Grid.Row="2" Grid.Column="1" MinValue="0" MaxValue="60" Value="{Binding Preference.StartMargin,Mode=TwoWay}" Margin="3"/>
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Shutdown Margin [min]"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource ShutdownMarginLabel}"/>
                     <ctrl:IntegerUpDown Grid.Row="3" Grid.Column="1" MinValue="0" MaxValue="60" Value="{Binding Preference.EndMargin,Mode=TwoWay}" Margin="3"/>
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Calendar">
+            <GroupBox Header="{DynamicResource CalendarLabel}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4*"/>
@@ -87,17 +85,17 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="First Day of Week"/>
-                    <ComboBox  Grid.Row="0" Grid.Column="1" ItemsSource="{StaticResource DayOfWeeks}" SelectedItem="{Binding Preference.FirstDayOfWeek,Mode=TwoWay}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource FirstDayLabel}"/>
+                    <ComboBox  Grid.Row="0" Grid.Column="1" ItemsSource="{DynamicResource DayOfWeeks}" SelectedIndex="{Binding FirstDayIndex.Value,Mode=TwoWay}"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Border Offset[min]"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource BorderOffsetLabel}"/>
                     <ctrl:IntegerUpDown Grid.Row="1" Grid.Column="1" MinValue="-720" MaxValue="720" Value="{Binding DayOffset.Value,Mode=TwoWay}" Margin="3"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Max Days"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource MaxDaysLabel}"/>
                     <ctrl:IntegerUpDown Grid.Row="2" Grid.Column="1" MinValue="1" MaxValue="1800" Value="{Binding MaxDays.Value,Mode=TwoWay}" Margin="3"/>
                 </Grid>
             </GroupBox>
-            <Button Content="OK" Command="{Binding OkCommand}" IsCancel="true" FontSize="{StaticResource BasicFontSize}" Width="100" Margin="5"/>
+            <Button Content="{DynamicResource OKLabel}" Command="{Binding OkCommand}" IsCancel="true" FontSize="{StaticResource BasicFontSize}" Width="100" Margin="5"/>
         </StackPanel>
     </Border>
 </UserControl>

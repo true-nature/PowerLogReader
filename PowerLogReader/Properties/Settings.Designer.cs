@@ -85,7 +85,7 @@ namespace PowerLogReader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Off")]
+        [global::System.Configuration.DefaultSettingValueAttribute("RoundingOff")]
         public string RoundingRule {
             get {
                 return ((string)(this["RoundingRule"]));

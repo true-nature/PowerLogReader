@@ -1,4 +1,5 @@
-﻿using PowerLogReader.Modules.Services;
+﻿using PowerLogReader.Core;
+using PowerLogReader.Modules.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -15,6 +16,10 @@ namespace PowerLogReader.Modules.ViewModels
         public ICommand OkCommand { get; }
         public IPreferenceService Preference { get; }
 
+        public ReactivePropertySlim<int> RoundingRuleIndex { get; } = new ReactivePropertySlim<int>();
+
+        public ReactivePropertySlim<int> FirstDayIndex { get; } = new ReactivePropertySlim<int>();
+
         public ReactiveProperty<int> DayOffset { get; } = new ReactiveProperty<int>(mode: ReactivePropertyMode.DistinctUntilChanged);
 
         public ReactiveProperty<int> MaxDays { get; } = new ReactiveProperty<int>();
@@ -22,6 +27,12 @@ namespace PowerLogReader.Modules.ViewModels
         public SettingsDialogViewModel(IPreferenceService preference)
         {
             Preference = preference;
+            RoundingRuleIndex.Value = (int)Preference.Rule;
+            RoundingRuleIndex.Subscribe(OnRoundingRuleChanged);
+
+            FirstDayIndex.Value = (int)Preference.FirstDayOfWeek;
+            FirstDayIndex.Subscribe(OnFirstDayOfWeekChanged);
+
             DayOffset.Value = (int)Preference.DayOffset.TotalMinutes;
             DayOffset.Subscribe(OnDayOffsetChanged);
 
@@ -50,6 +61,16 @@ namespace PowerLogReader.Modules.ViewModels
         {
             ButtonResult result = RescanRequired ? ButtonResult.Retry : ButtonResult.OK;
             RequestClose?.Invoke(new DialogResult(result));
+        }
+
+        private void OnRoundingRuleChanged(int value)
+        {
+            Preference.Rule = (RoundingRule)Enum.ToObject(typeof(RoundingRule), value);
+        }
+
+        private void OnFirstDayOfWeekChanged(int value)
+        {
+            Preference.FirstDayOfWeek = (DayOfWeek)Enum.ToObject(typeof(DayOfWeek), value);
         }
 
         private void OnDayOffsetChanged(int value)
