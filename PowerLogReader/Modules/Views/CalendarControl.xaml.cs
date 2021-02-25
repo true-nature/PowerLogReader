@@ -31,12 +31,12 @@ namespace PowerLogReader.Modules.Views
             {
                 foreach (var r in BlackoutDates)
                 {
-                    this.Calendar.BlackoutDates.Add(r);
+                    this.Dispatcher.Invoke(() => this.Calendar.BlackoutDates.Add(r));
                 }
             }
             else
             {
-                this.Calendar.BlackoutDates.Clear();
+                this.Dispatcher.Invoke(() => this.Calendar.BlackoutDates.Clear());
             }
         }
     }

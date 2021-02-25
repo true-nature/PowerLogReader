@@ -22,11 +22,12 @@ namespace PowerLogReader.Modules.Services
 
         public ObservableCollection<CalendarDateRange> BlackoutDates { get; } = new ObservableCollection<CalendarDateRange>();
 
-        protected void UpdateBlackoutDateRange(DateTime? lastDate, DateTime newDate)
+        protected void UpdateBlackoutDateRange(DateTime? lastDate, DateTime? newDate)
         {
-            if (lastDate.HasValue && (newDate - lastDate.Value) > TimeSpan.FromDays(1))
+            if (lastDate.HasValue && newDate.HasValue &&(newDate.Value - lastDate.Value) > TimeSpan.FromDays(1))
             {
-                BlackoutDates.Add(new CalendarDateRange(lastDate.Value.AddDays(1), newDate.AddDays(-1)));
+                var range = new CalendarDateRange(lastDate.Value.AddDays(1), newDate.Value.AddDays(-1));
+                BlackoutDates.Add(range);
             }
         }
 

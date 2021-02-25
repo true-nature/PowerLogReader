@@ -43,7 +43,7 @@ namespace PowerLogReader.Modules.Services
             if (AllPowerLogs.Count > 0 && !ScanCompleted.Value)
             {
                 ScannedDate.Value = AllPowerLogs[AllPowerLogs.Count - 1].Timestamp.Date;
-                UpdateBlackoutDateRange(lastDate, ScannedDate.Value.Value);
+                UpdateBlackoutDateRange(ScannedDate.Value, DateTime.Today);
             }
             ScanCompleted.Value = true;
         }
