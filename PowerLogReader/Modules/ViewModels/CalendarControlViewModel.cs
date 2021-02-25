@@ -8,6 +8,7 @@ using Reactive.Bindings.Extensions;
 using System;
 using System.Reactive.Disposables;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PowerLogReader.Modules.ViewModels
 {
@@ -20,6 +21,8 @@ namespace PowerLogReader.Modules.ViewModels
 
         public ReactivePropertySlim<DateTime?> SelectedDate { get; } = new ReactivePropertySlim<DateTime?>(DateTime.Today, ReactivePropertyMode.DistinctUntilChanged);
         public ReactiveProperty<DateTime?> DisplayDate { get; }
+        public ReadOnlyReactivePropertySlim<bool> ScanCompleted { get; }
+        public ReadOnlyReactiveCollection<CalendarDateRange> BlackoutDates { get; }
 
         public CalendarControlViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IPowerLogService powerLog, IPreferenceService preference) :
             base(regionManager)
@@ -30,6 +33,8 @@ namespace PowerLogReader.Modules.ViewModels
             DisplayDate = powerLog.ScannedDate.ToReactiveProperty().AddTo(Disposable);
             DisplayDate.Subscribe(OnDisplayDateChanged);
             SelectedDate.Subscribe(OnSelectedDateChanged);
+            ScanCompleted = powerLog.ScanCompleted.ToReadOnlyReactivePropertySlim().AddTo(Disposable);
+            BlackoutDates = powerLog.BlackoutDates.ToReadOnlyReactiveCollection();
         }
 
         public void Dispose()

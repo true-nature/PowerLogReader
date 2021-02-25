@@ -11,9 +11,9 @@ namespace PowerLogReader.Modules.Services
         {
         }
 
-        public override async void ScanEventLogsAsync()
+        public override async Task ScanEventLogsAsync()
         {
-            ScanCompleted = false;
+            ScanCompleted.Value = false;
             var oldest = DateTime.Today - TimeSpan.FromDays(Preference.MaxDays);
             ScannedDate.Value = oldest;
             AllPowerLogs.Clear();
@@ -30,7 +30,7 @@ namespace PowerLogReader.Modules.Services
             var query = new EventLogQuery("System", PathType.LogName, queryStr);
             EventLogReader reader = new EventLogReader(query);
             EventRecord record = reader.ReadEvent();
-            while (record != null && !ScanCompleted)
+            while (record != null && !ScanCompleted.Value)
             {
                 PowerLogEntry pwle = ToPowerLogEntry(record);
                 if (pwle != null)
@@ -45,11 +45,11 @@ namespace PowerLogReader.Modules.Services
                 }
                 record = reader.ReadEvent();
             }
-            if (AllPowerLogs.Count > 0 && !ScanCompleted)
+            if (AllPowerLogs.Count > 0 && !ScanCompleted.Value)
             {
                 ScannedDate.Value = AllPowerLogs[AllPowerLogs.Count - 1].Timestamp.Date;
             }
-            ScanCompleted = true;
+            ScanCompleted.Value = true;
         }
 
         private PowerLogEntry ToPowerLogEntry(EventRecord record)

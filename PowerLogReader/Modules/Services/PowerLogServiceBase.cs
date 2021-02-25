@@ -3,6 +3,8 @@ using Reactive.Bindings;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace PowerLogReader.Modules.Services
 {
@@ -16,7 +18,17 @@ namespace PowerLogReader.Modules.Services
 
         public DateTime LastSelectedDate { get; set; }
 
-        public bool ScanCompleted { get; protected set; }
+        public ReactivePropertySlim<bool> ScanCompleted { get; } = new ReactivePropertySlim<bool>();
+
+        public ObservableCollection<CalendarDateRange> BlackoutDates { get; } = new ObservableCollection<CalendarDateRange>();
+
+        protected void UpdateBlackoutDateRange(DateTime? lastDate, DateTime newDate)
+        {
+            if (lastDate.HasValue && (newDate - lastDate.Value) > TimeSpan.FromDays(1))
+            {
+                BlackoutDates.Add(new CalendarDateRange(lastDate.Value.AddDays(1), newDate.AddDays(-1)));
+            }
+        }
 
         public PowerLogServiceBase(IPreferenceService preference)
         {
@@ -24,11 +36,11 @@ namespace PowerLogReader.Modules.Services
             LastSelectedDate = DateTime.Today;
         }
 
-        public abstract void ScanEventLogsAsync();
+        public abstract Task ScanEventLogsAsync();
 
         public void AbortScan()
         {
-            ScanCompleted = true;
+            ScanCompleted.Value = true;
         }
 
         public PowerLogEntry[] GetPowerLogEntries(DateTime date)
