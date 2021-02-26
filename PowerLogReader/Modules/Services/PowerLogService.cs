@@ -1,10 +1,8 @@
 ﻿using PowerLogReader.Core;
 using System;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace PowerLogReader.Modules.Services
 {
@@ -20,6 +18,7 @@ namespace PowerLogReader.Modules.Services
             BlackoutDates.Clear();
             DateTime? lastDate = null;
             var oldest = DateTime.Today - TimeSpan.FromDays(Preference.MaxDays);
+            var beforeBlackout = oldest;
             ScannedDate.Value = oldest;
             AllPowerLogs.Clear();
             var entries = new EventLog("System").Entries.Cast<EventLogEntry>().Where(x => x.TimeGenerated >= oldest);
@@ -33,7 +32,8 @@ namespace PowerLogReader.Modules.Services
                     AllPowerLogs.Add(pwle);
                     if (lastDate != pwle.Timestamp.Date)
                     {
-                        UpdateBlackoutDateRange(lastDate, pwle.Timestamp.Date);
+                        UpdateBlackoutDateRange(beforeBlackout, lastDate);
+                        beforeBlackout = lastDate.HasValue ? lastDate.Value : beforeBlackout;
                         ScannedDate.Value = lastDate;
                         lastDate = pwle.Timestamp.Date;
                         await Task.Yield();
@@ -44,29 +44,6 @@ namespace PowerLogReader.Modules.Services
             {
                 ScannedDate.Value = AllPowerLogs[AllPowerLogs.Count - 1].Timestamp.Date;
                 UpdateBlackoutDateRange(ScannedDate.Value, DateTime.Today);
-            }
-            ScanCompleted.Value = true;
-        }
-
-        private void ScanLogs()
-        {
-            ScanCompleted.Value = false;
-#pragma warning disable IDE0059 // 値の不必要な代入
-            long oldest = Preference.MaxDays * 86400000L;
-#pragma warning restore IDE0059 // 値の不必要な代入
-            var queryStr = $"<QueryList><Query Id='0' Path='System'>"
-                + "<Select Path ='System'>"
-                + "*[System[Provider[@Name = 'Microsoft-Windows-Kernel-Boot'"
-                + " or @Name = 'Microsoft-Windows-Kernel-General'"
-                + " or @Name = 'Microsoft-Windows-Kernel-Power']]] "
-                + " and TimeCreated[timediff(@SystemTime) &lt;= {oldest}]]]"
-                + " </Select></ Query></QueryList>";
-            var query = new EventLogQuery("System", PathType.LogName, queryStr);
-            EventLogReader reader = new EventLogReader(query);
-            EventRecord record = reader.ReadEvent();
-            while (record != null && !ScanCompleted.Value)
-            {
-                record = reader.ReadEvent();
             }
             ScanCompleted.Value = true;
         }

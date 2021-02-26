@@ -14,7 +14,9 @@ namespace PowerLogReader.Modules.Services
         public override async Task ScanEventLogsAsync()
         {
             ScanCompleted.Value = false;
+            BlackoutDates.Clear();
             var oldest = DateTime.Today - TimeSpan.FromDays(Preference.MaxDays);
+            var beforeBlackout = oldest;
             ScannedDate.Value = oldest;
             AllPowerLogs.Clear();
             DateTime? lastDate = null;
@@ -38,7 +40,8 @@ namespace PowerLogReader.Modules.Services
                     AllPowerLogs.Add(pwle);
                     if (lastDate != pwle.Timestamp.Date)
                     {
-                        UpdateBlackoutDateRange(ScannedDate.Value, lastDate);
+                        UpdateBlackoutDateRange(beforeBlackout, lastDate);
+                        beforeBlackout = lastDate.HasValue ? lastDate.Value : beforeBlackout;
                         ScannedDate.Value = lastDate;
                         lastDate = pwle.Timestamp.Date;
                         await Task.Yield();

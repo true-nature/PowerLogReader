@@ -24,6 +24,8 @@ namespace PowerLogReader.Modules.ViewModels
 
         public ReactiveProperty<int> MaxDays { get; } = new ReactiveProperty<int>();
 
+        public ReactivePropertySlim<bool> EnableBlackoutDates { get; } = new ReactivePropertySlim<bool>(mode: ReactivePropertyMode.DistinctUntilChanged);
+
         public SettingsDialogViewModel(IPreferenceService preference)
         {
             Preference = preference;
@@ -38,6 +40,9 @@ namespace PowerLogReader.Modules.ViewModels
 
             MaxDays.Value = Preference.MaxDays;
             MaxDays.Subscribe(OnMaxDaysChanged);
+
+            EnableBlackoutDates.Value = Preference.EnableBlackoutDates;
+            EnableBlackoutDates.Subscribe(OnEnableBlackoutDatesChanged);
 
             OkCommand = new DelegateCommand(OnOkCommand);
         }
@@ -82,6 +87,12 @@ namespace PowerLogReader.Modules.ViewModels
         private void OnMaxDaysChanged(int value)
         {
             Preference.MaxDays = value;
+            RescanRequired = true;
+        }
+
+        private void OnEnableBlackoutDatesChanged(bool value)
+        {
+            Preference.EnableBlackoutDates = value;
             RescanRequired = true;
         }
     }

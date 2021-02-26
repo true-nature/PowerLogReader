@@ -91,6 +91,19 @@ namespace PowerLogReader.Modules.Services
             }
         }
 
+        private bool enableBlackoutDates = true;
+        public bool EnableBlackoutDates
+        {
+            get => enableBlackoutDates;
+            set
+            {
+                SetProperty(ref enableBlackoutDates, value);
+                Properties.Settings.Default.EnableBlackoutDates = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+
         public PreferenceService()
         {
             var settings = Properties.Settings.Default;
@@ -100,6 +113,7 @@ namespace PowerLogReader.Modules.Services
             maxDays = settings.MaxDays;
             startMargin = settings.StartMargin;
             endMargin = settings.EndMargin;
+            enableBlackoutDates = settings.EnableBlackoutDates;
             Enum.TryParse<DayOfWeek>(settings.FirstDayOfWeek, out firstDay);
         }
 

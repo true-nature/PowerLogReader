@@ -7,7 +7,7 @@
              xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="av"
-             Width="300" av:DesignHeight="290"
+             Width="300" av:DesignHeight="310"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
@@ -83,6 +83,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource FirstDayLabel}"/>
@@ -93,6 +94,8 @@
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource MaxDaysLabel}"/>
                     <ctrl:IntegerUpDown Grid.Row="2" Grid.Column="1" MinValue="1" MaxValue="1800" Value="{Binding MaxDays.Value,Mode=TwoWay}" Margin="3"/>
+
+                    <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" IsChecked="{Binding EnableBlackoutDates.Value,Mode=TwoWay}" Margin="3" Content="{DynamicResource EnableBlackoutDatesLabel}"/>
                 </Grid>
             </GroupBox>
             <Button Content="{DynamicResource OKLabel}" Command="{Binding OkCommand}" IsCancel="true" FontSize="{StaticResource BasicFontSize}" Width="100" Margin="5"/>

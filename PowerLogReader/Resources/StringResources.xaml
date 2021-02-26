@@ -27,6 +27,7 @@
     <sys:String x:Key="FirstDayLabel">First Day of Week</sys:String>
     <sys:String x:Key="BorderOffsetLabel">Border Offset[min]</sys:String>
     <sys:String x:Key="MaxDaysLabel">Max Days</sys:String>
+    <sys:String x:Key="EnableBlackoutDatesLabel">Disable to select no record date</sys:String>
 
     <x:Array Type="sys:String" x:Key="RoundingRules">
         <sys:String>Rounding Off</sys:String>

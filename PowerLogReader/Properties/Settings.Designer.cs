@@ -106,5 +106,17 @@ namespace PowerLogReader.Properties {
                 this["FirstDayOfWeek"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableBlackoutDates {
+            get {
+                return ((bool)(this["EnableBlackoutDates"]));
+            }
+            set {
+                this["EnableBlackoutDates"] = value;
+            }
+        }
     }
 }

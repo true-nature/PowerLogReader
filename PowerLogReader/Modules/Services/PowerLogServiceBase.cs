@@ -24,7 +24,7 @@ namespace PowerLogReader.Modules.Services
 
         protected void UpdateBlackoutDateRange(DateTime? lastDate, DateTime? newDate)
         {
-            if (lastDate.HasValue && newDate.HasValue &&(newDate.Value - lastDate.Value) > TimeSpan.FromDays(1))
+            if (Preference.EnableBlackoutDates && lastDate.HasValue && newDate.HasValue &&(newDate.Value - lastDate.Value) > TimeSpan.FromDays(1))
             {
                 var range = new CalendarDateRange(lastDate.Value.AddDays(1), newDate.Value.AddDays(-1));
                 BlackoutDates.Add(range);
