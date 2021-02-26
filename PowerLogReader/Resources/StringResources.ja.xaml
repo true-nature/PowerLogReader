@@ -27,7 +27,7 @@
     <sys:String x:Key="FirstDayLabel">週の開始曜日</sys:String>
     <sys:String x:Key="BorderOffsetLabel">日付境界オフセット[分]</sys:String>
     <sys:String x:Key="MaxDaysLabel">最大日数</sys:String>
-    <sys:String x:Key="EnableBlackoutDatesLabel">記録の無い日は選択不可</sys:String>
+    <sys:String x:Key="EnableBlackoutDatesLabel">記録の無い日を選択できないようにする</sys:String>
 
     <x:Array Type="sys:String" x:Key="RoundingRules">
         <sys:String>四捨五入</sys:String>
