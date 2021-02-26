@@ -152,7 +152,6 @@
     <Compile Include="Modules\Services\IPowerLogService.cs" />
     <Compile Include="Modules\Services\IPreferenceService.cs" />
     <Compile Include="Modules\Services\PowerLogReaderService.cs" />
-    <Compile Include="Modules\Services\PowerLogService.cs" />
     <Compile Include="Modules\Services\PowerLogServiceBase.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
