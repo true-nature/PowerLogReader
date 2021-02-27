@@ -2,6 +2,8 @@
 
 ### screenshots
 
+![Main Window Movie(ja)](../../wiki/screenshots/PowerLogReader.gif)
+
 ![Main Window](../../wiki/screenshots/Screenshot_MainWindow.png)
 
 ![Settings Dialog](../../wiki/screenshots/Screenshot_SettingsDialog.png)
