@@ -41,7 +41,7 @@ namespace PowerLogReader.Modules.Services
                     if (lastDate != pwle.Timestamp.Date)
                     {
                         UpdateBlackoutDateRange(beforeBlackout, lastDate);
-                        beforeBlackout = lastDate.HasValue ? lastDate.Value : beforeBlackout;
+                        beforeBlackout = lastDate ?? beforeBlackout;
                         ScannedDate.Value = lastDate;
                         lastDate = pwle.Timestamp.Date;
                         await Task.Yield();
