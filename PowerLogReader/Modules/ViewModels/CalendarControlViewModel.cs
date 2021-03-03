@@ -40,6 +40,7 @@ namespace PowerLogReader.Modules.ViewModels
         public void Dispose()
         {
             Disposable.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
