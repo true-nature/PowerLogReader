@@ -1,10 +1,10 @@
 ﻿using PowerLogReader.Core;
 using Reactive.Bindings;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace PowerLogReader.Modules.Services
 {
@@ -20,16 +20,21 @@ namespace PowerLogReader.Modules.Services
 
         public ReactivePropertySlim<bool> ScanCompleted { get; } = new ReactivePropertySlim<bool>();
 
-        public ObservableCollection<CalendarDateRange> BlackoutDates { get; } = new ObservableCollection<CalendarDateRange>();
+        protected List<Tuple<DateTime, DateTime>> BlackoutDates { get; } = new List<Tuple<DateTime, DateTime>>();
 
         protected void UpdateBlackoutDateRange(DateTime? lastDate, DateTime? newDate)
         {
-            if (Preference.EnableBlackoutDates && lastDate.HasValue && newDate.HasValue &&(newDate.Value - lastDate.Value) > TimeSpan.FromDays(1))
+            if (Preference.EnableBlackoutDates && lastDate.HasValue && newDate.HasValue)
             {
-                var range = new CalendarDateRange(lastDate.Value.AddDays(1), newDate.Value.AddDays(-1));
-                BlackoutDates.Add(range);
+                if ((newDate.Value - lastDate.Value) > TimeSpan.FromDays(1))
+                {
+                    var range = new Tuple<DateTime,DateTime>(lastDate.Value.AddDays(1), newDate.Value.AddDays(-1));
+                    BlackoutDates.Add(range);
+                }
             }
         }
+
+        public Tuple<DateTime, DateTime>[] BlackoutDateArray { get; protected set; } = new Tuple<DateTime, DateTime>[0];
 
         public PowerLogServiceBase(IPreferenceService preference)
         {

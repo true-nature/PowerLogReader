@@ -6,6 +6,7 @@ using Prism.Regions;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
+using System.Linq;
 using System.Reactive.Disposables;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,7 +23,6 @@ namespace PowerLogReader.Modules.ViewModels
         public ReactivePropertySlim<DateTime?> SelectedDate { get; } = new ReactivePropertySlim<DateTime?>(DateTime.Today, ReactivePropertyMode.DistinctUntilChanged);
         public ReactiveProperty<DateTime?> DisplayDate { get; }
         public ReadOnlyReactivePropertySlim<bool> ScanCompleted { get; }
-        public ReadOnlyReactiveCollection<CalendarDateRange> BlackoutDates { get; }
 
         public CalendarControlViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IPowerLogService powerLog, IPreferenceService preference) :
             base(regionManager)
@@ -34,7 +34,11 @@ namespace PowerLogReader.Modules.ViewModels
             DisplayDate.Subscribe(OnDisplayDateChanged);
             SelectedDate.Subscribe(OnSelectedDateChanged);
             ScanCompleted = powerLog.ScanCompleted.ToReadOnlyReactivePropertySlim().AddTo(Disposable);
-            BlackoutDates = powerLog.BlackoutDates.ToReadOnlyReactiveCollection();
+        }
+
+        public Tuple<DateTime, DateTime>[] GetBlackoutDates()
+        {
+            return PowerLogService.BlackoutDateArray;
         }
 
         public void Dispose()
@@ -60,9 +64,10 @@ namespace PowerLogReader.Modules.ViewModels
         {
             if (date.HasValue)
             {
+                var newDate = date.Value;
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    SelectedDate.Value = date.Value;
+                    SelectedDate.Value = newDate;
                 });
             }
         }

@@ -1,9 +1,7 @@
 ﻿using PowerLogReader.Core;
 using Reactive.Bindings;
 using System;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace PowerLogReader.Modules.Services
 {
@@ -13,9 +11,9 @@ namespace PowerLogReader.Modules.Services
         void AbortScan();
         ReactivePropertySlim<DateTime?> ScannedDate { get; }
         DateTime LastSelectedDate { get; set; }
-        ObservableCollection<CalendarDateRange> BlackoutDates { get; }
         ReactivePropertySlim<bool> ScanCompleted { get; }
         PowerLogEntry[] GetPowerLogEntries(DateTime date);
+        Tuple<DateTime, DateTime>[] BlackoutDateArray { get; }
 
         DateTime GetNormalizeStart(DateTime src);
         DateTime GetNormalizeEnd(DateTime src);

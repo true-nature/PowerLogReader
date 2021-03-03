@@ -10,29 +10,30 @@ namespace PowerLogReader.Modules.Views
     /// </summary>
     public partial class CalendarControl : UserControl
     {
+        private CalendarControlViewModel ViewModel => DataContext as CalendarControlViewModel;
         public CalendarControl()
         {
             InitializeComponent();
             Loaded += CalendarControl_Loaded;
         }
 
-        private ReadOnlyReactiveCollection<CalendarDateRange> BlackoutDates { get; set; }
-
         private void CalendarControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            var viewModel = DataContext as CalendarControlViewModel;
-            BlackoutDates = viewModel.BlackoutDates;
-            viewModel.ScanCompleted.Subscribe(OnScanCompleted);
+            ViewModel.ScanCompleted.Subscribe(OnScanCompleted);
         }
 
         private void OnScanCompleted(bool completed)
         {
             if (completed)
             {
-                foreach (var r in BlackoutDates)
+                this.Dispatcher.Invoke(() =>
                 {
-                    this.Dispatcher.Invoke(() => this.Calendar.BlackoutDates.Add(r));
-                }
+                    var BlackoutDates = ViewModel.GetBlackoutDates();
+                    foreach (var r in BlackoutDates)
+                    {
+                        this.Calendar.BlackoutDates.Add(new CalendarDateRange(r.Item1, r.Item2));
+                    }
+                });
             }
             else
             {

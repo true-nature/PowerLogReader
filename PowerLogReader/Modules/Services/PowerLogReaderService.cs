@@ -16,7 +16,7 @@ namespace PowerLogReader.Modules.Services
             ScanCompleted.Value = false;
             BlackoutDates.Clear();
             var oldest = DateTime.Today - TimeSpan.FromDays(Preference.MaxDays);
-            var beforeBlackout = oldest;
+            var beforeBlackout = oldest - TimeSpan.FromDays(30);    // To easy recognission of oldest date
             ScannedDate.Value = oldest;
             AllPowerLogs.Clear();
             DateTime? lastDate = null;
@@ -49,11 +49,19 @@ namespace PowerLogReader.Modules.Services
                 }
                 record = reader.ReadEvent();
             }
-            if (AllPowerLogs.Count > 0 && !ScanCompleted.Value)
+            if (AllPowerLogs.Count > 0)
             {
-                ScannedDate.Value = AllPowerLogs[AllPowerLogs.Count - 1].Timestamp.Date;
-                UpdateBlackoutDateRange(ScannedDate.Value, DateTime.Today + TimeSpan.FromDays(1));
+                UpdateBlackoutDateRange(lastDate, DateTime.Today + TimeSpan.FromDays(1));
+                if (!ScanCompleted.Value)   // not aborted
+                {
+                    ScannedDate.Value = AllPowerLogs[AllPowerLogs.Count - 1].Timestamp.Date;
+                }
             }
+            else
+            {
+                UpdateBlackoutDateRange(beforeBlackout, DateTime.Today + TimeSpan.FromDays(1));
+            }
+            BlackoutDateArray = BlackoutDates.ToArray();
             ScanCompleted.Value = true;
         }
 
