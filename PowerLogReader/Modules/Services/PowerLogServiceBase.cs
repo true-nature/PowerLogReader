@@ -10,6 +10,8 @@ namespace PowerLogReader.Modules.Services
 {
     public abstract class PowerLogServiceBase : IPowerLogService
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         protected IPreferenceService Preference { get; }
 
         protected ObservableCollection<PowerLogEntry> AllPowerLogs { get; } = new ObservableCollection<PowerLogEntry>();
@@ -24,6 +26,7 @@ namespace PowerLogReader.Modules.Services
 
         protected void UpdateBlackoutDateRange(DateTime? lastDate, DateTime? newDate)
         {
+            Logger.Debug("UpdateBlackoutDateRange(lastDate:{0}, newDate:{1})", lastDate, newDate);
             if (Preference.EnableBlackoutDates && lastDate.HasValue && newDate.HasValue)
             {
                 if ((newDate.Value - lastDate.Value) > TimeSpan.FromDays(1))

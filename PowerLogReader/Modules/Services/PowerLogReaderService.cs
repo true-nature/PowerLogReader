@@ -7,6 +7,8 @@ namespace PowerLogReader.Modules.Services
 {
     public class PowerLogReaderService : PowerLogServiceBase
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public PowerLogReaderService(IPreferenceService preference) : base(preference)
         {
         }
@@ -19,7 +21,7 @@ namespace PowerLogReader.Modules.Services
             var beforeBlackout = oldest - TimeSpan.FromDays(30);    // To easy recognission of oldest date
             ScannedDate.Value = oldest;
             AllPowerLogs.Clear();
-            DateTime? lastDate = oldest - TimeSpan.FromDays(1);
+            DateTime? lastDate = null;
             long maxTimeDiff = Preference.MaxDays * 86400000L;
             var queryStr = "<QueryList><Query Id=\"0\" Path=\"System\">"
                 + "<Select Path =\"System\">"
@@ -40,22 +42,18 @@ namespace PowerLogReader.Modules.Services
                     AllPowerLogs.Add(pwle);
                     if (lastDate != pwle.Timestamp.Date)
                     {
-                        if (lastDate == null)
-                        {
-                            UpdateBlackoutDateRange(beforeBlackout, pwle.Timestamp.Date);
-                        }
-                        else
+                        if (lastDate != null)
                         {
                             UpdateBlackoutDateRange(beforeBlackout, lastDate);
                             beforeBlackout = lastDate.Value;
                         }
-                        ScannedDate.Value = lastDate;
-                        lastDate = pwle.Timestamp.Date;
+                        ScannedDate.Value = lastDate = pwle.Timestamp.Date;
                         await Task.Yield();
                     }
                 }
                 record = reader.ReadEvent();
             }
+            Logger.Debug("AllPowerLogs.Count = {0}", AllPowerLogs.Count);
             if (AllPowerLogs.Count > 0)
             {
                 UpdateBlackoutDateRange(lastDate, DateTime.Today + TimeSpan.FromDays(1));
@@ -70,6 +68,7 @@ namespace PowerLogReader.Modules.Services
             }
             BlackoutDateArray = BlackoutDates.ToArray();
             ScanCompleted.Value = true;
+            Logger.Debug("Scan completed");
         }
 
         private PowerLogEntry ToPowerLogEntry(EventRecord record)
