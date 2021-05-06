@@ -18,10 +18,9 @@ namespace PowerLogReader.Modules.Services
             ScanCompleted.Value = false;
             BlackoutDates.Clear();
             var oldest = DateTime.Today - TimeSpan.FromDays(Preference.MaxDays);
-            var beforeBlackout = oldest - TimeSpan.FromDays(30);    // To easy recognission of oldest date
+            DateTime? lastDate = oldest - TimeSpan.FromDays(30);    // To easy recognission of oldest date
             ScannedDate.Value = oldest;
             AllPowerLogs.Clear();
-            DateTime? lastDate = null;
             long maxTimeDiff = Preference.MaxDays * 86400000L;
             var queryStr = "<QueryList><Query Id=\"0\" Path=\"System\">"
                 + "<Select Path =\"System\">"
@@ -42,11 +41,7 @@ namespace PowerLogReader.Modules.Services
                     AllPowerLogs.Add(pwle);
                     if (lastDate != pwle.Timestamp.Date)
                     {
-                        if (lastDate != null)
-                        {
-                            UpdateBlackoutDateRange(beforeBlackout, lastDate);
-                            beforeBlackout = lastDate.Value;
-                        }
+                        UpdateBlackoutDateRange(lastDate, pwle.Timestamp.Date);
                         ScannedDate.Value = lastDate = pwle.Timestamp.Date;
                         await Task.Yield();
                     }
@@ -64,7 +59,7 @@ namespace PowerLogReader.Modules.Services
             }
             else
             {
-                UpdateBlackoutDateRange(beforeBlackout, DateTime.Today + TimeSpan.FromDays(1));
+                UpdateBlackoutDateRange(lastDate, DateTime.Today + TimeSpan.FromDays(1));
             }
             BlackoutDateArray = BlackoutDates.ToArray();
             ScanCompleted.Value = true;
