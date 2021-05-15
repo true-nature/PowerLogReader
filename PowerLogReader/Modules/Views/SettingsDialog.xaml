@@ -61,10 +61,21 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource MethodLabel}"/>
-                    <ComboBox  Grid.Row="0" Grid.Column="1"  Grid.ColumnSpan="2" ItemsSource="{StaticResource RoundingRules}" SelectedIndex="{Binding RoundingRuleIndex.Value,Mode=TwoWay}"/>
+                    <ComboBox  Grid.Row="0" Grid.Column="1" x:Name="Rounding" Grid.ColumnSpan="2" ItemsSource="{StaticResource RoundingRules}" SelectedIndex="{Binding RoundingRuleIndex.Value,Mode=TwoWay}"/>
 
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource UnitLabel}"/>
-                    <ctrl:IntegerUpDown Grid.Row="1" Grid.Column="1" MinValue="1" MaxValue="60" Value="{Binding Preference.RoundUnit,Mode=TwoWay}" Margin="3"/>
+                    <ctrl:IntegerUpDown Grid.Row="1" Grid.Column="1" MinValue="1" MaxValue="60" Value="{Binding Preference.RoundUnit,Mode=TwoWay}" Margin="3">
+                        <ctrl:IntegerUpDown.Style>
+                            <Style TargetType="ctrl:IntegerUpDown">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Rounding,Path=SelectedIndex}" Value="0">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ctrl:IntegerUpDown.Style>
+                    </ctrl:IntegerUpDown>
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource BootMarginLabel}"/>
                     <ctrl:IntegerUpDown Grid.Row="2" Grid.Column="1" MinValue="0" MaxValue="60" Value="{Binding Preference.StartMargin,Mode=TwoWay}" Margin="3"/>

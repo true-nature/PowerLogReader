@@ -178,6 +178,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <Resource Include="Assets\PART_DownArrow.png" />
+    <Resource Include="Assets\PART_UpArrow.png" />
     <Content Include="LICENSE\NLog\LICENSE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
