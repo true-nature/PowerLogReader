@@ -59,66 +59,80 @@ namespace PowerLogReader.Modules.Services
 
         public DateTime GetNormalizeStart(DateTime src)
         {
-            var normalized = src - TimeSpan.FromMinutes(Preference.StartMargin);
-            double minUnits = (normalized.Minute + normalized.Second / 60.0) / (double)Preference.RoundUnit;
-            switch (Preference.Rule)
+            if (Preference.Rounding == RoundingRule.None)
             {
-                case RoundingRule.RoundingOff:
-                    minUnits = Math.Round(minUnits);
-                    break;
-                case RoundingRule.Truncate:
-                    minUnits = Math.Ceiling(minUnits);
-                    break;
-                case RoundingRule.RoundingUp:
-                    minUnits = Math.Floor(minUnits);
-                    break;
-                default:
-                    break;
+                return src;
             }
-            int minute = (int)(minUnits * Preference.RoundUnit);
-            if (minute >= 60)
+            else
             {
-                normalized = normalized.AddHours(1);
-                minute -= 60;
+                var normalized = src - TimeSpan.FromMinutes(Preference.StartMargin);
+                double minUnits = (normalized.Minute + normalized.Second / 60.0) / (double)Preference.RoundUnit;
+                switch (Preference.Rounding)
+                {
+                    case RoundingRule.RoundingOff:
+                        minUnits = Math.Round(minUnits);
+                        break;
+                    case RoundingRule.Truncate:
+                        minUnits = Math.Ceiling(minUnits);
+                        break;
+                    case RoundingRule.RoundingUp:
+                        minUnits = Math.Floor(minUnits);
+                        break;
+                    default:
+                        break;
+                }
+                int minute = (int)(minUnits * Preference.RoundUnit);
+                if (minute >= 60)
+                {
+                    normalized = normalized.AddHours(1);
+                    minute -= 60;
+                }
+                else if (minute < 0)
+                {
+                    normalized = normalized.AddHours(-1);
+                    minute += 60;
+                }
+                return new DateTime(normalized.Year, normalized.Month, normalized.Day, normalized.Hour, minute, 0);
             }
-            else if (minute < 0)
-            {
-                normalized = normalized.AddHours(-1);
-                minute += 60;
-            }
-            return new DateTime(normalized.Year, normalized.Month, normalized.Day, normalized.Hour, minute, 0);
         }
 
         public DateTime GetNormalizeEnd(DateTime src)
         {
-            var normalized = src + TimeSpan.FromMinutes(Preference.EndMargin);
-            double minUnits = (normalized.Minute + normalized.Second / 60.0) / (double)Preference.RoundUnit;
-            switch (Preference.Rule)
+            if (Preference.Rounding == RoundingRule.None)
             {
-                case RoundingRule.RoundingOff:
-                    minUnits = Math.Round(minUnits);
-                    break;
-                case RoundingRule.Truncate:
-                    minUnits = Math.Floor(minUnits);
-                    break;
-                case RoundingRule.RoundingUp:
-                    minUnits = Math.Ceiling(minUnits);
-                    break;
-                default:
-                    break;
+                return src;
             }
-            int minute = (int)(minUnits * Preference.RoundUnit);
-            if (minute >= 60)
+            else
             {
-                normalized = normalized.AddHours(1);
-                minute -= 60;
+                var normalized = src + TimeSpan.FromMinutes(Preference.EndMargin);
+                double minUnits = (normalized.Minute + normalized.Second / 60.0) / (double)Preference.RoundUnit;
+                switch (Preference.Rounding)
+                {
+                    case RoundingRule.RoundingOff:
+                        minUnits = Math.Round(minUnits);
+                        break;
+                    case RoundingRule.Truncate:
+                        minUnits = Math.Floor(minUnits);
+                        break;
+                    case RoundingRule.RoundingUp:
+                        minUnits = Math.Ceiling(minUnits);
+                        break;
+                    default:
+                        break;
+                }
+                int minute = (int)(minUnits * Preference.RoundUnit);
+                if (minute >= 60)
+                {
+                    normalized = normalized.AddHours(1);
+                    minute -= 60;
+                }
+                else if (minute < 0)
+                {
+                    normalized = normalized.AddHours(-1);
+                    minute += 60;
+                }
+                return new DateTime(normalized.Year, normalized.Month, normalized.Day, normalized.Hour, minute, 0);
             }
-            else if (minute < 0)
-            {
-                normalized = normalized.AddHours(-1);
-                minute += 60;
-            }
-            return new DateTime(normalized.Year, normalized.Month, normalized.Day, normalized.Hour, minute, 0);
         }
     }
 }

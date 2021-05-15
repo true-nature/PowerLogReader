@@ -7,7 +7,7 @@ namespace PowerLogReader.Modules.Services
     public interface IPreferenceService : INotifyPropertyChanged
     {
         int RoundUnit { get; set; }
-        RoundingRule Rule { get; set; }
+        RoundingRule Rounding { get; set; }
         TimeSpan DayOffset { get; set; }
         int StartMargin { get; set; }
         int EndMargin { get; set; }

@@ -17,18 +17,21 @@ namespace PowerLogReader.Modules.ViewModels
     public class PowerLogControlViewModel : RegionViewModelBase, IDisposable
     {
         private readonly CompositeDisposable Disposable = new CompositeDisposable();
-        private IEventAggregator EventAggregator { get; set; }
-        private IPowerLogService PowerLogService { get; set; }
+        private IEventAggregator EventAggregator { get; }
+        private IPowerLogService PowerLogService { get; }
+        private IPreferenceService Preference { get; }
 
         public ObservableCollection<PowerLogEntry> PowerLogs { get; } = new ObservableCollection<PowerLogEntry>();
         public ReactivePropertySlim<PowerLogEntry> Summary { get; } = new ReactivePropertySlim<PowerLogEntry>();
+        public ReactivePropertySlim<RoundingRule> Rounding { get; } = new ReactivePropertySlim<RoundingRule>();
 
-        public PowerLogControlViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IPowerLogService powerLog) :
+        public PowerLogControlViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, IPowerLogService powerLog, IPreferenceService preference) :
             base(regionManager)
         {
             EventAggregator = eventAggregator;
             EventAggregator.GetEvent<DateChangedEvent>().Subscribe(OnDateChanged).AddTo(Disposable);
             PowerLogService = powerLog;
+            Preference = preference;
         }
 
         public void Dispose()
@@ -44,6 +47,7 @@ namespace PowerLogReader.Modules.ViewModels
         private void OnDateChanged(DateTime? date)
         {
             PowerLogs.Clear();
+            Rounding.Value = Preference.Rounding;
             var summary = new PowerLogEntry();
             if (date.HasValue)
             {

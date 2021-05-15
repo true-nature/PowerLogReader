@@ -30,6 +30,7 @@
     <sys:String x:Key="EnableBlackoutDatesLabel">記録の無い日を選択できないようにする</sys:String>
 
     <x:Array Type="sys:String" x:Key="RoundingRules">
+        <sys:String>なし</sys:String>
         <sys:String>四捨五入</sys:String>
         <sys:String>切り捨て</sys:String>
         <sys:String>切り上げ</sys:String>

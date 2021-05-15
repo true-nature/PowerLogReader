@@ -73,7 +73,7 @@ namespace PowerLogReader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("90")]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
         public int MaxDays {
             get {
                 return ((int)(this["MaxDays"]));

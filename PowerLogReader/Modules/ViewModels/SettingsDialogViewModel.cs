@@ -29,7 +29,7 @@ namespace PowerLogReader.Modules.ViewModels
         public SettingsDialogViewModel(IPreferenceService preference)
         {
             Preference = preference;
-            RoundingRuleIndex.Value = (int)Preference.Rule;
+            RoundingRuleIndex.Value = (int)Preference.Rounding;
             RoundingRuleIndex.Subscribe(OnRoundingRuleChanged);
 
             FirstDayIndex.Value = (int)Preference.FirstDayOfWeek;
@@ -70,7 +70,7 @@ namespace PowerLogReader.Modules.ViewModels
 
         private void OnRoundingRuleChanged(int value)
         {
-            Preference.Rule = (RoundingRule)Enum.ToObject(typeof(RoundingRule), value);
+            Preference.Rounding = (RoundingRule)Enum.ToObject(typeof(RoundingRule), value);
         }
 
         private void OnFirstDayOfWeekChanged(int value)

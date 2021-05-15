@@ -5,12 +5,13 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True" >
     <UserControl.Resources>
-        <Style TargetType="{x:Type TextBox}">
+        <Style x:Key="BaseTextBox" TargetType="{x:Type TextBox}">
             <Setter Property="IsReadOnly" Value="True"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="{StaticResource BasicFontSize}"/>
         </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource BaseTextBox}"/>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="{StaticResource BasicFontSize}"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -34,12 +35,34 @@
                 <Run Text="{DynamicResource StartLabel}"/>
                 <Run Text=":"/>
             </TextBlock>
-            <TextBox Grid.Column="2" Text="{Binding Summary.Value.StartTime, StringFormat='yyyy/MM/dd HH:mm'}" Width="{StaticResource DateTimeWidth}" HorizontalContentAlignment="Left" Margin="0,0,10,0"/>
+            <TextBox Grid.Column="2" Width="{StaticResource DateTimeWidth}" HorizontalContentAlignment="Left" Margin="0,0,10,0">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource BaseTextBox}">
+                        <Setter Property="Text" Value="{Binding Summary.Value.StartTime, StringFormat='yyyy/MM/dd HH:mm'}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Rounding.Value}" Value="None">
+                                <Setter Property="Text" Value="{Binding Summary.Value.StartTime, StringFormat='yyyy/MM/dd HH:mm:ss'}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
             <TextBlock Grid.Column="3" HorizontalAlignment="Right" Margin="5,0">
                 <Run Text="{DynamicResource EndLabel}"/>
                 <Run Text=":"/>
             </TextBlock>
-            <TextBox Grid.Column="4" Text="{Binding Summary.Value.EndTime, StringFormat='yyyy/MM/dd HH:mm'}" Width="{StaticResource DateTimeWidth}" HorizontalContentAlignment="Left" Margin="0,0,10,0"/>
+            <TextBox Grid.Column="4" Width="{StaticResource DateTimeWidth}" HorizontalContentAlignment="Left" Margin="0,0,10,0">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource BaseTextBox}">
+                        <Setter Property="Text" Value="{Binding Summary.Value.EndTime, StringFormat='yyyy/MM/dd HH:mm'}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Rounding.Value}" Value="None">
+                                <Setter Property="Text" Value="{Binding Summary.Value.EndTime, StringFormat='yyyy/MM/dd HH:mm:ss'}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
         </Grid>
         <ListView Grid.Row="1" Margin="5" ItemsSource="{Binding PowerLogs,Mode=OneWay}" HorizontalAlignment="Stretch">
             <ListView.ItemContainerStyle>

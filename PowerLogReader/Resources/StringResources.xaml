@@ -30,6 +30,7 @@
     <sys:String x:Key="EnableBlackoutDatesLabel">Disable to select no record date</sys:String>
 
     <x:Array Type="sys:String" x:Key="RoundingRules">
+        <sys:String>None</sys:String>
         <sys:String>Rounding Off</sys:String>
         <sys:String>Truncate</sys:String>
         <sys:String>Rounding Up</sys:String>

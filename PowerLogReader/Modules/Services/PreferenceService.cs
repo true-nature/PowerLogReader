@@ -18,8 +18,8 @@ namespace PowerLogReader.Modules.Services
             }
         }
 
-        private RoundingRule rule = RoundingRule.RoundingOff;
-        public RoundingRule Rule
+        private RoundingRule rule = RoundingRule.None;
+        public RoundingRule Rounding
         {
             get => rule;
             set
@@ -54,7 +54,7 @@ namespace PowerLogReader.Modules.Services
             }
         }
 
-        private int maxDays = 120;
+        private int maxDays = 30;
         public int MaxDays
         {
             get => maxDays;
