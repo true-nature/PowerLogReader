@@ -29,9 +29,9 @@ namespace PowerLogReader.Modules.ViewModels
             Preference = preference;
             PowerLogService = powerLog;
             DisplayDate = powerLog.ScannedDate.ToReactiveProperty().AddTo(Disposable);
-            DisplayDate.Subscribe(OnDisplayDateChanged);
             SelectedDate.Subscribe(OnSelectedDateChanged);
             ScanCompleted = powerLog.ScanCompleted.ToReadOnlyReactivePropertySlim().AddTo(Disposable);
+            ScanCompleted.Subscribe(OnScanCompletedChanged).AddTo(Disposable);
         }
 
         public Tuple<DateTime, DateTime>[] GetBlackoutDates()
@@ -58,15 +58,11 @@ namespace PowerLogReader.Modules.ViewModels
             }
         }
 
-        private void OnDisplayDateChanged(DateTime? date)
+        private void OnScanCompletedChanged(bool value)
         {
-            if (date.HasValue)
+            if (value)
             {
-                var newDate = date.Value;
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    SelectedDate.Value = newDate;
-                });
+                EventAggregator.GetEvent<DateChangedEvent>().Publish(DateTime.Today);
             }
         }
     }

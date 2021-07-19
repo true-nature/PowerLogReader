@@ -29,7 +29,7 @@ namespace PowerLogReader.Modules.ViewModels
             base(regionManager)
         {
             EventAggregator = eventAggregator;
-            EventAggregator.GetEvent<DateChangedEvent>().Subscribe(OnDateChanged).AddTo(Disposable);
+            EventAggregator.GetEvent<DateChangedEvent>().Subscribe(OnDateChanged, ThreadOption.UIThread).AddTo(Disposable);
             PowerLogService = powerLog;
             Preference = preference;
         }
