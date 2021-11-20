@@ -193,16 +193,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
-      <Version>5.0.3</Version>
+      <Version>6.0.0</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.10</Version>
+      <Version>4.7.12</Version>
     </PackageReference>
     <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
     <PackageReference Include="ReactiveProperty">
-      <Version>7.10.0</Version>
+      <Version>8.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
