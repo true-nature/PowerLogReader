@@ -64,7 +64,7 @@
                     <ComboBox  Grid.Row="0" Grid.Column="1" x:Name="Rounding" Grid.ColumnSpan="2" ItemsSource="{StaticResource RoundingRules}" SelectedIndex="{Binding RoundingRuleIndex.Value,Mode=TwoWay}"/>
 
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource UnitLabel}"/>
-                    <ctrl:IntegerUpDown Grid.Row="1" Grid.Column="1" MinValue="1" MaxValue="60" Value="{Binding Preference.RoundUnit,Mode=TwoWay}" Margin="3">
+                    <ctrl:IntegerUpDown Grid.Row="1" Grid.Column="1" MinValue="1" MaxValue="60" Value="{Binding RoundUnit.Value,Mode=TwoWay}" Margin="3">
                         <ctrl:IntegerUpDown.Style>
                             <Style TargetType="ctrl:IntegerUpDown">
                                 <Setter Property="IsEnabled" Value="True"/>
@@ -78,10 +78,10 @@
                     </ctrl:IntegerUpDown>
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource BootMarginLabel}"/>
-                    <ctrl:IntegerUpDown Grid.Row="2" Grid.Column="1" MinValue="0" MaxValue="60" Value="{Binding Preference.StartMargin,Mode=TwoWay}" Margin="3"/>
+                    <ctrl:IntegerUpDown Grid.Row="2" Grid.Column="1" MinValue="0" MaxValue="60" Value="{Binding StartMargin.Value,Mode=TwoWay}" Margin="3"/>
 
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource ShutdownMarginLabel}"/>
-                    <ctrl:IntegerUpDown Grid.Row="3" Grid.Column="1" MinValue="0" MaxValue="60" Value="{Binding Preference.EndMargin,Mode=TwoWay}" Margin="3"/>
+                    <ctrl:IntegerUpDown Grid.Row="3" Grid.Column="1" MinValue="0" MaxValue="60" Value="{Binding EndMargin.Value,Mode=TwoWay}" Margin="3"/>
                 </Grid>
             </GroupBox>
             <GroupBox Header="{DynamicResource CalendarLabel}">

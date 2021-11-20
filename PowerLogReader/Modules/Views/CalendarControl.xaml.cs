@@ -28,9 +28,14 @@ namespace PowerLogReader.Modules.Views
             {
                 this.Dispatcher.Invoke(() =>
                 {
+                    var today = DateTime.Today;
                     var BlackoutDates = ViewModel.GetBlackoutDates();
                     foreach (var r in BlackoutDates)
                     {
+                        if (r.Item1 <= today && today <= r.Item2)
+                        {
+                            Calendar.SelectedDate = null;
+                        }
                         this.Calendar.BlackoutDates.Add(new CalendarDateRange(r.Item1, r.Item2));
                     }
                 });

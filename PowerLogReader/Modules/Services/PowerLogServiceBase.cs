@@ -12,7 +12,7 @@ namespace PowerLogReader.Modules.Services
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        protected IPreferenceService Preference { get; }
+        protected IPreferenceService PreferenceService { get; }
 
         protected ObservableCollection<PowerLogEntry> AllPowerLogs { get; } = new ObservableCollection<PowerLogEntry>();
 
@@ -27,7 +27,7 @@ namespace PowerLogReader.Modules.Services
         protected void UpdateBlackoutDateRange(DateTime? lastDate, DateTime? newDate)
         {
             Logger.Debug("UpdateBlackoutDateRange(lastDate:{0}, newDate:{1})", lastDate, newDate);
-            if (Preference.EnableBlackoutDates && lastDate.HasValue && newDate.HasValue)
+            if (PreferenceService.Preference.EnableBlackoutDates && lastDate.HasValue && newDate.HasValue)
             {
                 if ((newDate.Value - lastDate.Value) > TimeSpan.FromDays(1))
                 {
@@ -41,7 +41,7 @@ namespace PowerLogReader.Modules.Services
 
         public PowerLogServiceBase(IPreferenceService preference)
         {
-            Preference = preference;
+            PreferenceService = preference;
             LastSelectedDate = DateTime.Today;
         }
 
@@ -59,15 +59,16 @@ namespace PowerLogReader.Modules.Services
 
         public DateTime GetNormalizeStart(DateTime src)
         {
-            if (Preference.Rounding == RoundingRule.None)
+            var preference = PreferenceService.Preference;
+            if (preference.Rounding == RoundingRule.None)
             {
                 return src;
             }
             else
             {
-                var normalized = src - TimeSpan.FromMinutes(Preference.StartMargin);
-                double minUnits = (normalized.Minute + normalized.Second / 60.0) / (double)Preference.RoundUnit;
-                switch (Preference.Rounding)
+                var normalized = src - TimeSpan.FromMinutes(preference.StartMargin);
+                double minUnits = (normalized.Minute + normalized.Second / 60.0) / (double)preference.RoundUnit;
+                switch (preference.Rounding)
                 {
                     case RoundingRule.RoundingOff:
                         minUnits = Math.Round(minUnits);
@@ -81,7 +82,7 @@ namespace PowerLogReader.Modules.Services
                     default:
                         break;
                 }
-                int minute = (int)(minUnits * Preference.RoundUnit);
+                int minute = (int)(minUnits * preference.RoundUnit);
                 if (minute >= 60)
                 {
                     normalized = normalized.AddHours(1);
@@ -98,15 +99,16 @@ namespace PowerLogReader.Modules.Services
 
         public DateTime GetNormalizeEnd(DateTime src)
         {
-            if (Preference.Rounding == RoundingRule.None)
+            var preference = PreferenceService.Preference;
+            if (preference.Rounding == RoundingRule.None)
             {
                 return src;
             }
             else
             {
-                var normalized = src + TimeSpan.FromMinutes(Preference.EndMargin);
-                double minUnits = (normalized.Minute + normalized.Second / 60.0) / (double)Preference.RoundUnit;
-                switch (Preference.Rounding)
+                var normalized = src + TimeSpan.FromMinutes(preference.EndMargin);
+                double minUnits = (normalized.Minute + normalized.Second / 60.0) / (double)preference.RoundUnit;
+                switch (preference.Rounding)
                 {
                     case RoundingRule.RoundingOff:
                         minUnits = Math.Round(minUnits);
@@ -120,7 +122,7 @@ namespace PowerLogReader.Modules.Services
                     default:
                         break;
                 }
-                int minute = (int)(minUnits * Preference.RoundUnit);
+                int minute = (int)(minUnits * preference.RoundUnit);
                 if (minute >= 60)
                 {
                     normalized = normalized.AddHours(1);

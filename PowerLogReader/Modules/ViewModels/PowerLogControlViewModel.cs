@@ -19,7 +19,7 @@ namespace PowerLogReader.Modules.ViewModels
         private readonly CompositeDisposable Disposable = new CompositeDisposable();
         private IEventAggregator EventAggregator { get; }
         private IPowerLogService PowerLogService { get; }
-        private IPreferenceService Preference { get; }
+        private IPreferenceService PreferenceService { get; }
 
         public ObservableCollection<PowerLogEntry> PowerLogs { get; } = new ObservableCollection<PowerLogEntry>();
         public ReactivePropertySlim<PowerLogEntry> Summary { get; } = new ReactivePropertySlim<PowerLogEntry>();
@@ -31,7 +31,7 @@ namespace PowerLogReader.Modules.ViewModels
             EventAggregator = eventAggregator;
             EventAggregator.GetEvent<DateChangedEvent>().Subscribe(OnDateChanged, ThreadOption.UIThread).AddTo(Disposable);
             PowerLogService = powerLog;
-            Preference = preference;
+            PreferenceService = preference;
         }
 
         public void Dispose()
@@ -47,7 +47,7 @@ namespace PowerLogReader.Modules.ViewModels
         private void OnDateChanged(DateTime? date)
         {
             PowerLogs.Clear();
-            Rounding.Value = Preference.Rounding;
+            Rounding.Value = PreferenceService.Preference.Rounding;
             var summary = new PowerLogEntry();
             if (date.HasValue)
             {

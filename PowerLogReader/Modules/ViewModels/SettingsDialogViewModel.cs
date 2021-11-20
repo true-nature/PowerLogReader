@@ -14,9 +14,13 @@ namespace PowerLogReader.Modules.ViewModels
         private bool RescanRequired = false;
 
         public ICommand OkCommand { get; }
-        public IPreferenceService Preference { get; }
+        public IPreferenceService PreferenceService { get; }
 
         public ReactivePropertySlim<int> RoundingRuleIndex { get; } = new ReactivePropertySlim<int>();
+
+        public ReactivePropertySlim<int> RoundUnit { get; } = new ReactivePropertySlim<int>();
+        public ReactivePropertySlim<int> StartMargin { get; } = new ReactivePropertySlim<int>();
+        public ReactivePropertySlim<int> EndMargin { get; } = new ReactivePropertySlim<int>();
 
         public ReactivePropertySlim<int> FirstDayIndex { get; } = new ReactivePropertySlim<int>();
 
@@ -26,22 +30,24 @@ namespace PowerLogReader.Modules.ViewModels
 
         public ReactivePropertySlim<bool> EnableBlackoutDates { get; } = new ReactivePropertySlim<bool>(mode: ReactivePropertyMode.DistinctUntilChanged);
 
-        public SettingsDialogViewModel(IPreferenceService preference)
+        public SettingsDialogViewModel(IPreferenceService preferenceService)
         {
-            Preference = preference;
-            RoundingRuleIndex.Value = (int)Preference.Rounding;
-            RoundingRuleIndex.Subscribe(OnRoundingRuleChanged);
+            PreferenceService = preferenceService;
+            var preference = PreferenceService.Preference;
+            RoundingRuleIndex.Value = (int)preference.Rounding;
+            RoundUnit.Value = preference.RoundUnit;
+            StartMargin.Value = preference.StartMargin;
+            EndMargin.Value = preference.EndMargin;
 
-            FirstDayIndex.Value = (int)Preference.FirstDayOfWeek;
-            FirstDayIndex.Subscribe(OnFirstDayOfWeekChanged);
+            FirstDayIndex.Value = (int)preference.FirstDayOfWeek;
 
-            DayOffset.Value = (int)Preference.DayOffset.TotalMinutes;
+            DayOffset.Value = (int)preference.DayOffsetMinutes;
             DayOffset.Subscribe(OnDayOffsetChanged);
 
-            MaxDays.Value = Preference.MaxDays;
+            MaxDays.Value = preference.MaxDays;
             MaxDays.Subscribe(OnMaxDaysChanged);
 
-            EnableBlackoutDates.Value = Preference.EnableBlackoutDates;
+            EnableBlackoutDates.Value = preference.EnableBlackoutDates;
             EnableBlackoutDates.Subscribe(OnEnableBlackoutDatesChanged);
 
             OkCommand = new DelegateCommand(OnOkCommand);
@@ -64,35 +70,33 @@ namespace PowerLogReader.Modules.ViewModels
 
         private void OnOkCommand()
         {
+            var preference = PreferenceService.Preference;
+            preference.Rounding = (RoundingRule)Enum.ToObject(typeof(RoundingRule), RoundingRuleIndex.Value);
+            preference.RoundUnit = RoundUnit.Value;
+            preference.StartMargin = StartMargin.Value;
+            preference.EndMargin = EndMargin.Value;
+            preference.FirstDayOfWeek = (DayOfWeek)Enum.ToObject(typeof(DayOfWeek), FirstDayIndex.Value);
+            preference.DayOffsetMinutes = DayOffset.Value;
+            preference.MaxDays = MaxDays.Value;
+            preference.EnableBlackoutDates = EnableBlackoutDates.Value;
+            PreferenceService.Save();
+
             ButtonResult result = RescanRequired ? ButtonResult.Retry : ButtonResult.OK;
             RequestClose?.Invoke(new DialogResult(result));
         }
 
-        private void OnRoundingRuleChanged(int value)
-        {
-            Preference.Rounding = (RoundingRule)Enum.ToObject(typeof(RoundingRule), value);
-        }
-
-        private void OnFirstDayOfWeekChanged(int value)
-        {
-            Preference.FirstDayOfWeek = (DayOfWeek)Enum.ToObject(typeof(DayOfWeek), value);
-        }
-
         private void OnDayOffsetChanged(int value)
         {
-            Preference.DayOffset = TimeSpan.FromMinutes(value);
             RescanRequired = true;
         }
 
         private void OnMaxDaysChanged(int value)
         {
-            Preference.MaxDays = value;
             RescanRequired = true;
         }
 
         private void OnEnableBlackoutDatesChanged(bool value)
         {
-            Preference.EnableBlackoutDates = value;
             RescanRequired = true;
         }
     }

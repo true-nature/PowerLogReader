@@ -17,11 +17,11 @@ namespace PowerLogReader.Modules.Services
         {
             ScanCompleted.Value = false;
             BlackoutDates.Clear();
-            var oldest = DateTime.Today - TimeSpan.FromDays(Preference.MaxDays);
+            var oldest = DateTime.Today - TimeSpan.FromDays(PreferenceService.Preference.MaxDays);
             DateTime? lastDate = oldest - TimeSpan.FromDays(30);    // To easy recognission of oldest date
             ScannedDate.Value = oldest;
             AllPowerLogs.Clear();
-            long maxTimeDiff = Preference.MaxDays * 86400000L;
+            long maxTimeDiff = PreferenceService.Preference.MaxDays * 86400000L;
             var queryStr = "<QueryList><Query Id=\"0\" Path=\"System\">"
                 + "<Select Path =\"System\">"
                 + "*[System[Provider[@Name = 'Microsoft-Windows-Kernel-Boot'"
@@ -71,11 +71,11 @@ namespace PowerLogReader.Modules.Services
             PowerLogEntry pwle = null;
             if (record.IsPowerOnEvent())
             {
-                pwle = new PowerLogEntry { Id = record.Id, Provider = this.GetSourceName(record.ProviderName), Timestamp = record.TimeCreated.Value - Preference.DayOffset, StartTime = record.TimeCreated.Value };
+                pwle = new PowerLogEntry { Id = record.Id, Provider = this.GetSourceName(record.ProviderName), Timestamp = record.TimeCreated.Value - PreferenceService.Preference.DayOffset, StartTime = record.TimeCreated.Value };
             }
             else if (record.IsPowerOffEvent())
             {
-                pwle = new PowerLogEntry { Id = record.Id, Provider = this.GetSourceName(record.ProviderName), Timestamp = record.TimeCreated.Value - Preference.DayOffset, EndTime = record.TimeCreated.Value };
+                pwle = new PowerLogEntry { Id = record.Id, Provider = this.GetSourceName(record.ProviderName), Timestamp = record.TimeCreated.Value - PreferenceService.Preference.DayOffset, EndTime = record.TimeCreated.Value };
             }
             return pwle;
         }

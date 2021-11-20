@@ -1,121 +1,81 @@
-﻿using PowerLogReader.Core;
-using Prism.Mvvm;
-using System;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Xml;
 
 namespace PowerLogReader.Modules.Services
 {
-    public class PreferenceService : BindableBase, IPreferenceService
+    public class PreferenceService : IPreferenceService
     {
-        private int rountUnit = 5;
-        public int RoundUnit
-        {
-            get => rountUnit > 0 ? rountUnit : 1;
-            set
-            {
-                SetProperty(ref rountUnit, value);
-                Properties.Settings.Default.RoundUnit = value;
-                Properties.Settings.Default.Save();
-            }
-        }
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        private RoundingRule rule = RoundingRule.None;
-        public RoundingRule Rounding
-        {
-            get => rule;
-            set
-            {
-                SetProperty(ref rule, value);
-                Properties.Settings.Default.RoundingRule = value.ToString();
-                Properties.Settings.Default.Save();
-            }
-        }
+        private static readonly string PreferenceFileName = "preference.xml";
+        private string PreferenceFilePath { get; set; }
 
-        private TimeSpan dayOffset = new TimeSpan(3, 0, 0);
-        public TimeSpan DayOffset
-        {
-            get => dayOffset;
-            set
-            {
-                SetProperty(ref dayOffset, value);
-                Properties.Settings.Default.OffsetMinutes = (int)value.TotalMinutes;
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        private DayOfWeek firstDay = DayOfWeek.Monday;
-        public DayOfWeek FirstDayOfWeek
-        {
-            get => firstDay;
-            set
-            {
-                SetProperty(ref firstDay, value);
-                Properties.Settings.Default.FirstDayOfWeek = value.ToString();
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        private int maxDays = 30;
-        public int MaxDays
-        {
-            get => maxDays;
-            set
-            {
-                SetProperty(ref maxDays, value);
-                Properties.Settings.Default.MaxDays = value;
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        private int startMargin = 3;
-        public int StartMargin
-        {
-            get => startMargin;
-            set
-            {
-                SetProperty(ref startMargin, value);
-                Properties.Settings.Default.StartMargin = value;
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        private int endMargin = 2;
-
-        public int EndMargin
-        {
-            get => endMargin;
-            set
-            {
-                SetProperty(ref endMargin, value);
-                Properties.Settings.Default.EndMargin = value;
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        private bool enableBlackoutDates = true;
-        public bool EnableBlackoutDates
-        {
-            get => enableBlackoutDates;
-            set
-            {
-                SetProperty(ref enableBlackoutDates, value);
-                Properties.Settings.Default.EnableBlackoutDates = value;
-                Properties.Settings.Default.Save();
-            }
-        }
-
+        public Preference Preference { get; set; } = new Preference();
 
         public PreferenceService()
         {
-            var settings = Properties.Settings.Default;
-            rountUnit = settings.RoundUnit;
-            Enum.TryParse<RoundingRule>(settings.RoundingRule, out rule);
-            dayOffset = TimeSpan.FromMinutes(settings.OffsetMinutes);
-            maxDays = settings.MaxDays;
-            startMargin = settings.StartMargin;
-            endMargin = settings.EndMargin;
-            enableBlackoutDates = settings.EnableBlackoutDates;
-            Enum.TryParse<DayOfWeek>(settings.FirstDayOfWeek, out firstDay);
+            Load();
         }
 
+        /// <summary>
+        /// 設定ファイル保存先パスの取得
+        /// </summary>
+        /// <returns></returns>
+        private string GetAppDataPath()
+        {
+            var appDataPath = new StringBuilder(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            var entryAssebly = Assembly.GetEntryAssembly();
+            object[] attributes = entryAssebly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), true);
+            if (attributes.Length > 0)
+            {
+                var company = attributes[0] as AssemblyCompanyAttribute;
+                appDataPath.Append($"{Path.DirectorySeparatorChar}{company.Company}");
+            }
+            appDataPath.Append($"{Path.DirectorySeparatorChar}{entryAssebly.GetName().Name}");
+            return appDataPath.ToString();
+        }
+
+        /// <summary>
+        /// 設定値読み込み
+        /// </summary>
+        private void Load()
+        {
+            var appDataPath = GetAppDataPath();
+            Directory.CreateDirectory(appDataPath);
+            PreferenceFilePath = $"{appDataPath}{Path.DirectorySeparatorChar}{PreferenceFileName}";
+            if (File.Exists(PreferenceFilePath))
+            {
+                var serializer = new DataContractSerializer(typeof(Preference));
+                using (var stream = new FileStream(PreferenceFilePath, FileMode.Open))
+                using (var reader = XmlReader.Create(stream))
+                {
+                    Preference = serializer.ReadObject(reader) as Preference;
+                }
+            }
+            else
+            {
+                Save();
+            }
+        }
+
+        /// <summary>
+        /// 設定値保存
+        /// </summary>
+        public void Save()
+        {
+            var serializer = new DataContractSerializer(typeof(Preference));
+            using (var stream = new FileStream(PreferenceFilePath, FileMode.Create))
+            {
+                var xmlSettings = new XmlWriterSettings() { Indent = true, Encoding=new UTF8Encoding(false) };
+                using(var writer = XmlWriter.Create(stream, xmlSettings))
+                {
+                    serializer.WriteObject(writer, Preference);
+                }
+            }
+        }
     }
 }
