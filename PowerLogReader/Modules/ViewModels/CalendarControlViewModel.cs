@@ -16,7 +16,7 @@ namespace PowerLogReader.Modules.ViewModels
         private readonly CompositeDisposable Disposable = new CompositeDisposable();
         private IEventAggregator EventAggregator { get; }
         private readonly IPowerLogService PowerLogService;
-        public IPreferenceService Preference { get; }
+        public IPreferenceService PreferenceService { get; }
 
         public ReactivePropertySlim<DateTime?> SelectedDate { get; } = new ReactivePropertySlim<DateTime?>(DateTime.Today, ReactivePropertyMode.DistinctUntilChanged);
         public ReactiveProperty<DateTime?> DisplayDate { get; }
@@ -26,7 +26,7 @@ namespace PowerLogReader.Modules.ViewModels
             base(regionManager)
         {
             EventAggregator = eventAggregator;
-            Preference = preference;
+            PreferenceService = preference;
             PowerLogService = powerLog;
             DisplayDate = powerLog.ScannedDate.ToReactiveProperty().AddTo(Disposable);
             SelectedDate.Subscribe(OnSelectedDateChanged);
