@@ -33,7 +33,7 @@
             <Run Text="{Binding Version,Mode=OneWay}"/>
         </TextBlock>
         <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" FontSize="{StaticResource BasicFontSize}" VerticalAlignment="Top" Margin="5">
-            Copyright &#x00a9; 2020, 2021 true-nature. All rights reserved.
+            <Run Text="{Binding Copyright,Mode=OneWay}"/>
         </TextBlock>
         <Button Grid.Row="3" Grid.Column="2" Command="{Binding OkCommand}" IsCancel="True" Content="OK" Margin="3" FontSize="{StaticResource BasicFontSize}"/>
 

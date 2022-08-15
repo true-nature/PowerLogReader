@@ -11,10 +11,13 @@ namespace PowerLogReader.Modules.ViewModels
     {
         public Version Version { get; }
         public ICommand OkCommand { get; }
+        public string Copyright { get; }
 
         public AboutBoxControlViewModel()
         {
-            Version = Assembly.GetExecutingAssembly().GetName().Version;
+            var assembly = Assembly.GetEntryAssembly();
+            Version = assembly.GetName().Version;
+            Copyright = assembly.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright ?? string.Empty;
             OkCommand = new DelegateCommand(() =>
             {
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
